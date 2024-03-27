@@ -3,7 +3,7 @@
 
 
     <head>
-        <title>CS Unit 1 Projectc</title>
+        <title>CS Unit 1 Project</title>
         <link rel="stylesheet" href="styles/style.css">
     </head>
 
@@ -11,10 +11,25 @@
 
         <h1>A Day at School</h1>
 
-        <p>
+        <p id="story-text">
             Click on the left and right sides of the screen to cycle through each panel of text
         </p>
 
-        <button type="button" id="start" onclick="">Start </button>
+        <button type="button" id="start-button" onclick="beginStory();">Start</button>
+
+        <button type="button" id="previous-page-button" class="change-page-button" onclick="changePage(-1);">previous</button>
+        <button type="button" id="next-page-button"     class="change-page-button" onclick="changePage(1);">next</button>
+
+        <button type="button" id="continue-story-button" onclick="continueStory();"></button>
+
+        <button type="button" id="choice-button-1" class="choice-button" onclick="makeChoice('1');"></button>
+        <button type="button" id="choice-button-2" class="choice-button" onclick="makeChoice('2');"></button>
+        <button type="button" id="choice-button-3" class="choice-button" onclick="makeChoice('3');"></button>
+        <button type="button" id="choice-button-4" class="choice-button" onclick="makeChoice('4');"></button>
+        <button type="button" id="choice-button-5" class="choice-button" onclick="makeChoice('5');"></button>
+
+
+
+        <script src="scripts/script.js"></script>
     </body>
 </html>

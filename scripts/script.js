@@ -54,7 +54,8 @@ const storyData = {
             'accept the punishment', 
             'fight the teacher', 
             'tell the teacher you can prove you did your homework\nby answering homework questions', 
-            'mystery'
+            'mystery',
+            ''
         ],
         sectionType: TypeOptions.Normal
     },
@@ -64,7 +65,8 @@ const storyData = {
         choiceText: [
             'accept the punishment',
             'fight your parents',
-            'mystery'
+            'mystery',
+            '', ''
         ],
         sectionType: TypeOptions.Normal
     },
@@ -74,7 +76,7 @@ const storyData = {
             'you choose to accept the punishment.\nyou are grounded for a month\nwith your devices taken away for 2 months.',
             'YOU LOSE'
         ],
-        choiceText: [],
+        choiceText: ['', '', '', '', ''],
         sectionType: TypeOptions.Normal
     },
 
@@ -86,7 +88,8 @@ const storyData = {
         ],
         choiceText: [
             'fight',
-            'don\'t fight'
+            'don\'t fight',
+            '', '', ''
         ],
         sectionType: TypeOptions.Normal
     },
@@ -109,7 +112,7 @@ const storyData = {
 
 
         ],
-        choiceText: [],
+        choiceText: ['', '', '', '', ''],
         sectionType: TypeOptions.ArmWrestle
     },
 
@@ -118,7 +121,7 @@ const storyData = {
             'you choose to accept the punishment.\n your dad sneers at you, and says:\n good choice. you wouldn\'t want\n to fight me.\nyou are grounded for a month,\nand your devices are taken away for 2 months.',
             'YOU LOSE'
         ],
-        choiceText: [],
+        choiceText: ['', '', '', '', ''],
         sectionType: TypeOptions.Normal
     },
 
@@ -128,7 +131,7 @@ const storyData = {
             'a few weeks into school,\nyou forget your homework again.\nthis seems familiar...',
             'YOU LOSE'
         ],
-        choiceText: [],
+        choiceText: ['', '', '', '', ''],
         sectionType: TypeOptions.Normal
     },
 
@@ -140,7 +143,8 @@ const storyData = {
         choiceText: [
             'accept fight',
             'refuse fight',
-            'mystery'
+            'mystery',
+            '', ''
         ],
         sectionType: TypeOptions.Normal
     },
@@ -208,7 +212,7 @@ const storyData = {
             'teacher: wow.\nyour dog really did eat your homework.\nI didn\'t think that was possible.\nsorry for the misunderstanding.',
             'YOU WIN\n you don\'t get in trouble for\n not doing your homework,\n since you couldn\'t do it.'
         ],
-        choiceText: [],
+        choiceText: ['', '', '', '', ''],
         sectionType: TypeOptions.Normal
     },
 
@@ -221,7 +225,8 @@ const storyData = {
             'attempt the quiz',
             'try to cheat on the quiz',
             'fight the teacher',
-            'mystery'
+            'mystery',
+            ''
         ],
         sectionType: TypeOptions.Normal
     },
@@ -317,7 +322,8 @@ const storyData = {
         choiceText: [
             'attempt the quiz',
             'fight the teacher',
-            'mystery'
+            'mystery',
+            '', ''
         ],
         sectionType: TypeOptions.Normal
     },
@@ -420,7 +426,7 @@ const storyData = {
             'the school board ended up punishing the\nteacher, however the punishments were\nnot disclosed to the school.\nthe teacher still has his job,\nso most likely docked pay.',
             'YOU WIN'
         ],
-        choiceText: [],
+        choiceText: ['', '', '', '', ''],
         sectionType: TypeOptions.Normal
     },
 
@@ -438,7 +444,8 @@ const storyData = {
             'accept fight',
             'refuse fight',
             'run away',
-            'mystery'
+            'mystery',
+            ''
         ],
         sectionType: TypeOptions.Normal
     },
@@ -492,7 +499,7 @@ const storyData = {
             'you tread water until every muscle\nin your body runs out of strengh,\nand then you sink down to the\nmonsters and get eaten alive.',
             'YOU DIE'
         ],
-        choiceText: [],
+        choiceText: ['', '', '', '', ''],
         sectionType: TypeOptions.Normal
     },
 };
@@ -504,19 +511,42 @@ function beginStory() {
     document.getElementById('start-button').style.display = 'none';
 
     // unhide page change buttons
-    let buttons = document.getElementsByClassName('page-change-button');
-    for (let button in buttons) {
-        button.style.display = 'initial';
-    }
+    document.getElementById('previous-page-button').style.display = 'initial';
+    document.getElementById('next-page-button').style.display = 'initial';
 
-    // update current story data
-    storyData.currentData = storyData[storyData.choicePath];
-
-    // add new pages to page array
-    storyData.allPages = storyData.allPages.concat(storyData.currentData.text);
+    // call function to load story data
+    loadNewInfo();
 
     // run function to display text
     displayText();
+}
+
+
+
+// function to load new story info into variables
+function loadNewInfo() {
+    
+    // update current story data
+    storyData.currentData = storyData[storyData.choicePath];
+
+    // update array of all pages
+    storyData.allPages = storyData.allPages.concat(storyData.currentData.text);
+
+    // update variable so that the choice buttons aren't displayed anymore
+    storyData.displayChoiceButtons = false;
+
+    // try to load new choice options
+    try {
+
+        document.getElementById('choice-button-1').innerText = storyData.currentData.choiceText[0];
+        document.getElementById('choice-button-2').innerText = storyData.currentData.choiceText[1];
+        document.getElementById('choice-button-3').innerText = storyData.currentData.choiceText[2];
+        document.getElementById('choice-button-4').innerText = storyData.currentData.choiceText[3];
+        document.getElementById('choice-button-5').innerText = storyData.currentData.choiceText[4];
+
+    } catch (error) {
+        console.log('couldn\'t load choice text because of the following error: ' + error);
+    }
 }
 
 
@@ -534,14 +564,8 @@ function choiceSelector() {
     // check if current choice path is one of the second exceptions
     if (containsObject(storyData.choicePath, ['121', '123', '21', '22', '322', '323', '332', '43', '44'])) {
 
-        // update current story data
-        storyData.currentData = storyData[storyData.choicePath];
-
-        // update array of all pages
-        storyData.allPages = storyData.allPages.concat(storyData.currentData.text);
-
-        // update variable so that the choice buttons aren't displayed anymore
-        storyData.displayChoiceButtons = false;
+        // call function to load new story data
+        loadNewInfo();
 
         // call function to change display and change the choice path
         moveChoiceBoxes();
@@ -550,14 +574,11 @@ function choiceSelector() {
         return;
     }
 
-    // update current story data
-    storyData.currentData = storyData[storyData.choicePath];
+    // call function to load new story data
+    loadNewInfo();
 
-    // update array of all pages
-    storyData.allPages = storyData.allPages.concat(storyData.currentData.text);
-
-    // update variable so that the choice options aren't displayed anymore
-    storyData.displayChoiceButtons = false;
+    // call function to update page buttons
+    changePage(0);
 
     // run function to display text
     displayText();
@@ -609,6 +630,9 @@ function makeChoice(choiceNumber) {
     // print current choice path 
     console.log('current choice path: ' + storyData.choicePath);
 
+    // incrament page number
+    storyData.pageNumber++;
+
     // run function to handle exceptions
     choiceSelector();
 }
@@ -647,11 +671,11 @@ function changePage(incrament) {
         // allow choice buttons to be displayed
         storyData.displayChoiceButtons = true;
 
-    // if the previous condition was false, check if the 'forward button' is currently hidden1
-    } else if (forwardButton.style.display == 'none') {
+    // if the previous condition was false, check if the 'forward button' is currently hidden
+    } else if (forwardButton.disabled == true) {
 
         // unhide forward button
-        forwardButton.style.display = 'initial';
+        forwardButton.disabled = false;
     }
 
     // call function to display text
@@ -666,23 +690,30 @@ function displayText() {
     // update text on screen
     document.getElementById('story-text').innerText = storyData.allPages[storyData.pageNumber];
 
-    // make placeholder variable for choice buttons
-    let choiceButtons = document.getElementsByClassName('choice-button');
+    // make placeholder variables for choice buttons
+    let choiceButton1 = document.getElementById('choice-button-1');
+    let choiceButton2 = document.getElementById('choice-button-2');
+    let choiceButton3 = document.getElementById('choice-button-3');
+    let choiceButton4 = document.getElementById('choice-button-4');
+    let choiceButton5 = document.getElementById('choice-button-5');
+    let choiceButtons = [choiceButton1, choiceButton2, choiceButton3, choiceButton4, choiceButton5];
 
     // check if choice buttons should be displayed, and if they aren't displayed yet
-    if (storyData.displayChoiceButtons && choiceButtons.style.display == 'none') {
+    if (storyData.displayChoiceButtons) {
 
-        // display choice buttons
-        for (let button in choiceButtons) {
-            button.style.display = 'initial';
+        // display choice buttons only if they have text
+        for (let i = 0; i < choiceButtons.length; i++) {
+            if (choiceButtons[i].innerText != '') {
+                choiceButtons[i].style.display = 'initial';
+            }
         }
 
     // if previous condition was false, check if choice buttons should not be displayed, and if they are displayed
-    } else if (!storyData.displayChoiceButtons && choiceButtons.style.display == 'initial') {
+    } else if (!storyData.displayChoiceButtons) {
 
         // hide choice buttons
-        for (let button in choiceButtons) {
-            button.style.display = 'none';
+        for (let i = 0; i < choiceButtons.length; i++) {
+            choiceButtons[i].style.display = 'none';
         }
     }
 

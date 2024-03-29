@@ -1,11 +1,8 @@
-.choice-button {
-    display: none;
+body {
+    color: black;
+    background-color: dimgrey;
 }
 
-.change-page-button {
-    display: none;
-}
-
-#continue-story-button {
+.hidden-before-start {
     display: none;
 }

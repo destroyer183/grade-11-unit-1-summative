@@ -1,17 +1,24 @@
 'use strict';
 
+// function that will determine if an array contains an object
 function containsObject(object, array) {
     
+    // iterate over every element in the array
     for (let i = 0; i < array.length; i++) {
 
+        // check if the current element matdhes the object
         if (array[i] === object) {
-            return true
+
+            // return true if object matches array element
+            return true;
         }
     }
 
-    return false
+    // return false if no matches were found
+    return false;
 }
 
+// enumeration for the different types of story sections
 const TypeOptions = {
     Normal: 'normal',
     Quiz: 'quiz',
@@ -19,13 +26,48 @@ const TypeOptions = {
     ArmWrestle: 'arm wrestle'
 };
 
+// large object to act as a dictionary to allow variables to be used globally regardless of where they are used, and to store all data for the story
 const storyData = {
 
+    // dictionary item to store the current choicepath
     choicePath: '',
+
+    // dictionary item to store the current page number
     pageNumber: 0,
+
+    // dictionary item to store a bool to determine whether or not the choice buttons should be displayed
     displayChoiceButtons: false,
+
+    // dictionary item to store the current story data that has been loaded
     currentData: '',
+
+    // dictionary item to store the text from all the pages that have been loaded
     allPages: [],
+
+    // dictionary item to represent the template for the following dictionaries that represent each section of the story
+    template: {
+
+        // dictionary item to store the text that will be displayed
+        text: ['', '', '', '', ''],
+
+        // dictionary item to store the possible choice options that the user can select
+        choiceText: ['', '', '', '', ''],
+
+        // dicionary item to store the question data for the quiz challenges
+        questions: ['', '', '', '', ''],
+
+        // dicitonary item to store the solution data for the quiz challenges
+        solutions: ['', '', '', '', ''],
+
+        // dictionary item to store an enumeration value to represent what type of information is being loaded (normal text, or a type of challenge)
+        sectionType: TypeOptions.Normal,
+
+        // dictionary item to hold text for if the user gets a winning story ending or sucessfully completes a challenge
+        win: '',
+
+        // dictionary item to hold text for if the user gets a losing story ending or fails a challenge
+        lose: ''
+    },
 
     '': {
         text: [
@@ -507,6 +549,14 @@ const storyData = {
 // function that is called when the user clicks the button to begin the story
 function beginStory() {
 
+    // load background image
+    document.body.style.backgroundImage = "url('assets/school desk.jpg')";
+    document.body.style.backgroundSize = 'cover';
+
+    let pageWidth = window.innerWidth;
+
+    console.log('page width: ' + pageWidth);
+    
     // hide start button
     document.getElementById('start-button').style.display = 'none';
 
@@ -519,6 +569,8 @@ function beginStory() {
 
     // run function to display text
     displayText();
+
+    quizChallenge();
 }
 
 
@@ -544,9 +596,95 @@ function loadNewInfo() {
         document.getElementById('choice-button-4').innerText = storyData.currentData.choiceText[3];
         document.getElementById('choice-button-5').innerText = storyData.currentData.choiceText[4];
 
+    // handle error if new choice options can't be loaded
     } catch (error) {
+
+        // print error message
         console.log('couldn\'t load choice text because of the following error: ' + error);
     }
+}
+
+
+
+// function to determine which challenge is occuring
+function challengeSelector() {
+
+    // determine challenge type and run matching function
+    switch (storyData.currentData.sectionType) {
+
+        // case for quiz challenge
+        case TypeOptions.Quiz:
+            quizChallenge();
+
+        // case for arm wrestle challenge
+        case TypeOptions.ArmWrestle:
+            armWrestleChallenge();
+
+        // case for reaction test challenge
+        case TypeOptions.ReactionTest:
+            reactionTestChallenge();
+    }
+}
+
+
+
+// function to display the quiz challenge
+function quizChallenge() {
+
+    // load background image
+    document.body.style.backgroundImage = "url('assets/school desk.jpg')";
+    document.body.style.backgroundSize = 'cover';
+
+    // variables to store the base size of the background image
+    let imageWidth = 386;
+    let imageHeight = 612;
+    let imageAspectRatio = imageHeight / imageWidth;
+
+    // calculate what height the page needs to be in order to display the full background image
+
+    // get current page width
+    let pageWidth = window.innerWidth;
+
+    // calculate new page height by multiplying the page width by the image aspect ratio
+    let newPageHeight = (pageWidth * imageAspectRatio).toString() + 'px';
+
+    // change page height
+    document.body.style.height = newPageHeight;
+
+    // change displayed text to load description at the top
+    document.getElementById('story-text').innerText = 'Fill out an answer for each question.\nYou need at least 3 correct answers to pass the test.';
+
+    // hide page change buttons
+    document.getElementById('previous-page-button').style.display = 'none';
+    document.getElementById('next-page-button').style.display = 'none'
+    
+    // load quiz header
+
+    // load quiz questions and text boxes
+
+    // load submit button
+    // submit button will:
+        // determine how many correct answers the user submitted
+        // display the win text if the user got at least 3 correct answers
+        // display the lose text if the user didn't do enough, and then it will set the choice path to 11, which leads to angry parents
+        // display the page change buttons
+
+
+    return;
+}
+
+
+
+// function to display the arm wrestling challenge
+function armWrestleChallenge() {
+    return;
+}
+
+
+
+// function to display the reaction test challenge
+function reactionTestChallenge() {
+    return;
 }
 
 
@@ -577,6 +715,26 @@ function choiceSelector() {
     // call function to load new story data
     loadNewInfo();
 
+    // try to check if the current story data is a challenge
+    try {
+
+        // check if the current story data is a challenge
+        if (storyData.currentData.sectionType != TypeOptions.Normal) {
+
+            // run function to determine which type of challenge is occuring
+            challengeSelector();
+
+            // skip the rest of the code after this if statement
+            return;
+        }
+
+    // handle error if no data is found
+    } catch (error) {
+
+        // print error message
+        console.log('challenge detection error avoided. error: ' + error);
+    }
+
     // call function to update page buttons
     changePage(0);
 
@@ -589,10 +747,11 @@ function choiceSelector() {
 function moveChoiceBoxes() {
 
     // remove choice boxes
-    let buttons = document.getElementsByClassName('choice-button');
-    for (let button in buttons) {
-        button.style.display = 'none';
-    }
+    document.getElementById('choice-button-1').style.display = 'none';
+    document.getElementById('choice-button-2').style.display = 'none';
+    document.getElementById('choice-button-3').style.display = 'none';
+    document.getElementById('choice-button-4').style.display = 'none';
+    document.getElementById('choice-button-5').style.display = 'none';
 
     // add text
     document.getElementById('story-text').innerText = storyData.allPages[storyData.allPages.length - 1];

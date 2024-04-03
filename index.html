@@ -17,40 +17,133 @@
 
         <button type="button" id="start-button" onclick="beginStory();">Start</button>
 
-        <button type="button" id="previous-page-button" class="change-page-button, hidden-on-load" onclick="changePage(-1);">previous</button>
-        <button type="button" id="next-page-button"     class="change-page-button, hidden-on-load" onclick="changePage(1);">next</button>
+        <button type="button" id="previous-page-button" class="change-page-button hidden-on-load" onclick="changePage(-1);">previous</button>
+        <button type="button" id="next-page-button"     class="change-page-button hidden-on-load" onclick="changePage(1);">next</button>
 
         <button type="button" id="continue-story-button" class="hidden-on-load" onclick="continueStory();"></button>
 
-        <button type="button" id="choice-button-1" class="choice-button, hidden-on-load" onclick="makeChoice('1');"></button>
-        <button type="button" id="choice-button-2" class="choice-button, hidden-on-load" onclick="makeChoice('2');"></button>
-        <button type="button" id="choice-button-3" class="choice-button, hidden-on-load" onclick="makeChoice('3');"></button>
-        <button type="button" id="choice-button-4" class="choice-button, hidden-on-load" onclick="makeChoice('4');"></button>
-        <button type="button" id="choice-button-5" class="choice-button, hidden-on-load" onclick="makeChoice('5');"></button>
+        <button type="button" id="choice-button-1" class="choice-button hidden-on-load" onclick="makeChoice('1');"></button>
+        <button type="button" id="choice-button-2" class="choice-button hidden-on-load" onclick="makeChoice('2');"></button>
+        <button type="button" id="choice-button-3" class="choice-button hidden-on-load" onclick="makeChoice('3');"></button>
+        <button type="button" id="choice-button-4" class="choice-button hidden-on-load" onclick="makeChoice('4');"></button>
+        <button type="button" id="choice-button-5" class="choice-button hidden-on-load" onclick="makeChoice('5');"></button>
 
 
         <!-- have a div that is sized to fit the page on the background, and use absolute positioning to place it on the background paper properly -->
 
         <div id="quiz-template" class="hidden-on-load">
 
-            <h2 id="quiz header"></h2>
+            <h2 id="quiz-header"><b>
+                Grade 11 MCR3U
+                <br>
+                Equivalent Algebraic Expressions Quiz
+            </b></h2>
 
-            <p id="question-1"></p>
-            <input type="submit" required="required" id="question-1-input">
+            <span id="date-text">Date: </span>
 
-            <p id="question-2"></p>
-            <input type="submit" required="required" id="question-2-input">
+            <pre>
 
-            <p id="question-3"></p>
-            <input type="submit" required="required" id="question-3-input">
 
-            <p id="question-4"></p>
-            <input type="submit" required="required" id="question-4-input">
 
-            <p id="question-5"></p>
-            <input type="submit" required="required" id="question-5-input">
+            </pre>
 
-            <button type="button" id="submit-answers-button">Submit</button>
+            <div id="question-1">
+                <p class="question-text"><b id="question-1-text">1. text</b></p>
+                <input type="text" required="required" id="question-1-input" class="question-input">
+
+                <div id="question-1-output" class="hidden-on-load">
+                    <p>Your answer: <span class="question-inputted-answer"></span></p>
+                    <p class="question-answer-output"><br><span class="question-solution-text hidden-on-load"></span></p>
+                </div>
+
+
+                <pre>
+
+
+
+
+
+
+                </pre>
+            </div>
+
+            <div id="question-2">
+                <p class="question-text"><b id="question-2-text">2. text</b></p>
+                <input type="text" required="required" id="question-2-input" class="question-input">
+
+                <div id="question-2-output" class="hidden-on-load">
+                    <p>Your answer: <span class="question-inputted-answer"></span></p>
+                    <p class="question-answer-output"><br><span class="question-solution-text hidden-on-load"></span></p>
+                </div>
+
+                <pre>
+
+
+
+
+
+
+                </pre>
+            </div>
+
+            <div id="question-3">
+                <p class="question-text"><b id="question-3-text">3. text</b></p>
+                <input type="text" required="required" id="question-3-input" class="question-input">
+
+                <div id="question-3-output" class="hidden-on-load">
+                    <p>Your answer: <span class="question-inputted-answer"></span></p>
+                    <p class="question-answer-output"><br><span class="question-solution-text hidden-on-load"></span></p>
+                </div>
+
+                <pre>
+
+
+
+
+
+
+                </pre>
+            </div>
+
+            <div id="question-4" class="hidden-on-load">
+                <p class="question-text"><b id="question-4-text">4. text</b></p>
+                <input type="text" required="required" id="question-4-input" class="question-input">
+
+                <div id="question-4-output" class="hidden-on-load">
+                    <p>Your answer: <span class="question-inputted-answer"></span></p>
+                    <p class="question-answer-output"><br><span class="question-solution-text hidden-on-load"></span></p>
+                </div>
+
+                <pre>
+
+
+
+
+
+
+                </pre>
+            </div>
+
+            <div id="question-5" class="hidden-on-load">
+                <p class="question-text"><b id="question-5-text">5. text</b></p>
+                <input type="text" required="required" id="question-5-input" class="question-input">
+
+                <div id="question-5-output" class="hidden-on-load">
+                    <p>Your answer: <span class="question-inputted-answer"></span></p>
+                    <p class="question-answer-output"><br><span class="question-solution-text hidden-on-load"></span></p>
+                </div>
+
+                <pre>
+
+
+
+
+
+
+                </pre>
+            </div>
+
+            <button type="button" id="submit-answers-button" class="hidden-on-load" onclick="submitAnswers();">Submit</button>
         </div>
 
 

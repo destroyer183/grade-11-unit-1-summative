@@ -79,9 +79,23 @@ const storyData = {
         choiceText: [
             'tell the teacher your dog ate your homework', 
             'tell the teacher the truth', 
-            'tell the teacher that you didn\'t do the homework because\nit was too easy', 
+            'tell the teacher that you didn\'t do the homework because it was too easy', 
             'fight the teacher', 
             'mystery'
+        ],
+        questions: [
+            '1. question 1',
+            '2. question 2',
+            '3. question 3',
+            '4. question 4',
+            ''
+        ],
+        solutions: [
+            'test1',
+            'test2',
+            'test3',
+            'test4',
+            'e'
         ],
         sectionType: TypeOptions.Normal,
     },
@@ -234,14 +248,19 @@ const storyData = {
 
         ],
         questions: [
-            'if you pick 4 points at random \non the surface of a sphere,\nand draw lines connecting them all\ntogether, making a 3D shape,\nwhat is the probability that the\ncenter of the circle will\nbe within the shape?',
-            'solve: 2 x^2y^11 + 3xy^1 - 15y = 0,\ny(1) = 0 y^1 (1) = 1',
-            'What property of the universe is\nresponsible for making things near\nblack holes experience time slower?'
+            '1. if you pick 4 points at random \non the surface of a sphere,\nand draw lines connecting them all\ntogether, making a 3D shape,\nwhat is the probability that the\ncenter of the circle will\nbe within the shape?',
+            '2. solve: 2 x^2y^11 + 3xy^1 - 15y = 0,\ny(1) = 0 y^1 (1) = 1',
+            '3. What property of the universe is\nresponsible for making things near\nblack holes experience time slower?',
+            '', ''
         ],
         solutions: [
             '1/8\n',
             'y(x) = 0.2x^2.5 - 0.2x^-3\n',
-            'mass warping space time\n'
+            'mass warping space time\n',
+            'e', 'e'
+            // the reason I've put text in the last two solutions is because the text boxes that coorespond to these two can't be typed in, 
+            // and so this prevents the user from getting a correct answer evaluation from text box that isn't displayed.
+            // the contents of the text box won't be able to equal the solution.
         ],
         sectionType: TypeOptions.Quiz,
         win: 'you cheated.\nYOU LOSE',
@@ -300,11 +319,11 @@ const storyData = {
 
         ],
         questions: [
-            'square the number 392.',
-            'solve: a^2 + b^2 = 1\nc^2 + d^2 = 2\n(ac + bd)^2 + (ad - bc)^2 = ?',
-            'calculate the minimum number of turns\nneeded to solve every possible scramble\non a standard 3x3x3 rubiks cube.',
-            'x = 1, y = 10, solve:\ndy / dx = (10x - 1) / (4 + 3y^2)',
-            'k = 33, solve for x, y, z:\nx^3 + y^3 + z^3 = k'
+            '1. square the number 392.',
+            '2. solve: a^2 + b^2 = 1\nc^2 + d^2 = 2\n(ac + bd)^2 + (ad - bc)^2 = ?',
+            '3. calculate the minimum number of turns\nneeded to solve every possible scramble\non a standard 3x3x3 rubiks cube.',
+            '4. x = 1, y = 10, solve:\ndy / dx = (10x - 1) / (4 + 3y^2)',
+            '5. k = 33, solve for x, y, z:\nx^3 + y^3 + z^3 = k'
         ],
         solutions: [
             '153664\n',
@@ -333,9 +352,10 @@ const storyData = {
     '241': {
         text: ['you choose to take the teachers quiz.'],
         questions: [
-            'if you pick 4 points at random \non the surface of a sphere,\nand draw lines connecting them all\ntogether, making a 3D shape,\nwhat is the probability that the\ncenter of the circle will\nbe within the shape?',
-            'solve: 2 x^2y^11 + 3xy^1 - 15y = 0,\ny(1) = 0 y^1 (1) = 1',
-            'What property of the universe is\nresponsible for making things near\nblack holes experience time slower?'
+            '1. if you pick 4 points at random \non the surface of a sphere,\nand draw lines connecting them all\ntogether, making a 3D shape,\nwhat is the probability that the\ncenter of the circle will\nbe within the shape?',
+            '2. solve: 2 x^2y^11 + 3xy^1 - 15y = 0,\ny(1) = 0 y^1 (1) = 1',
+            '3. What property of the universe is\nresponsible for making things near\nblack holes experience time slower?',
+            '', ''
 
 
 
@@ -349,7 +369,8 @@ const storyData = {
         solutions: [
             '1/8\n',
             'y(x) = 0.2x^2.5 - 0.2x^-3\n',
-            'mass warping space time\n'
+            'mass warping space time\n',
+            'e', 'e'
         ],
         sectionType: TypeOptions.Quiz,
         win: 'you cheated.\nYOU LOSE',
@@ -383,14 +404,16 @@ const storyData = {
     
     ],
         questions: [
-            'solve:\n6 / 2(1 + 2)',
-            '1 + 4 = 5\n2 + 5 = 12\n3 + 6 = 21\n8 + 11 = ?',
-            'solve for x:\n3x = (5 + (4^2 + 6^2)) - 5(5! -3)'
+            '1. solve:\n6 / 2(1 + 2)',
+            '2. 1 + 4 = 5\n2 + 5 = 12\n3 + 6 = 21\n8 + 11 = ?',
+            '3. solve for x:\n3x = (5 + (4^2 + 6^2)) - 5(5! -3)',
+            '', ''
         ],
         solutions: [
             '9\n',
             '96\n',
-            '-176\n'
+            '-176\n',
+            'e', 'e'
         ],
         sectionType: TypeOptions.Quiz,
         win: 'teacher: wow. you really are smart\nenough to ace the quiz without doing\nhomework. sorry for bothering you.\nYOU WIN',
@@ -413,11 +436,11 @@ const storyData = {
     '321': {
         text: ['teacher: the rules are simple.\nwe are both given the same question,\nmand the first to answer it correctly\ngets a point. first to 3 points wins.\ncalculators allowed.'],
         questions: [
-            'find the square root of x:\n3x = 6(5! - 3) - ((3^3)6 - (5! - 6^2) - (6^2))',
-            'square the number 392.',
-            'simplify:\n(x + 5y)^2',
-            'factor:\n3x^2 - 8x - 3',
-            'factor fully:\n4(x^2 + 10x + 25) - 4x^2 - 24x - 36'
+            '1. find the square root of x:\n3x = 6(5! - 3) - ((3^3)6 - (5! - 6^2) - (6^2))',
+            '2. square the number 392.',
+            '3. simplify:\n(x + 5y)^2',
+            '4. factor:\n3x^2 - 8x - 3',
+            '5. factor fully:\n4(x^2 + 10x + 25) - 4x^2 - 24x - 36'
 
 
 
@@ -507,11 +530,11 @@ const storyData = {
 
         ],
         questions: [
-            'find the square root of x:\n3x = 6(5! - 3) - ((3^3)6 - (5! - 6^2) - (6^2))',
-            'square the number 392.',
-            'simplify:\n(x + 5y)^2',
-            'factor:\n3x^2 - 8x - 3',
-            'factor fully:\n4(x^2 + 10x + 25) - 4x^2 - 24x - 36'
+            '1. find the square root of x:\n3x = 6(5! - 3) - ((3^3)6 - (5! - 6^2) - (6^2))',
+            '2. square the number 392.',
+            '3. simplify:\n(x + 5y)^2',
+            '4. factor:\n3x^2 - 8x - 3',
+            '5. factor fully:\n4(x^2 + 10x + 25) - 4x^2 - 24x - 36'
         ],
         solutions: [
             '14\n',
@@ -590,11 +613,10 @@ function loadNewInfo() {
     // try to load new choice options
     try {
 
-        document.getElementById('choice-button-1').innerText = storyData.currentData.choiceText[0];
-        document.getElementById('choice-button-2').innerText = storyData.currentData.choiceText[1];
-        document.getElementById('choice-button-3').innerText = storyData.currentData.choiceText[2];
-        document.getElementById('choice-button-4').innerText = storyData.currentData.choiceText[3];
-        document.getElementById('choice-button-5').innerText = storyData.currentData.choiceText[4];
+        let choiceButtons = document.getElementsByClassName('choice-button');
+        for (let i = 0; i < choiceButtons.length; i++) {
+            choiceButtons[i].innerText = storyData.currentData.choiceText[i];
+        }
 
     // handle error if new choice options can't be loaded
     } catch (error) {
@@ -656,21 +678,153 @@ function quizChallenge() {
 
     // hide page change buttons
     document.getElementById('previous-page-button').style.display = 'none';
-    document.getElementById('next-page-button').style.display = 'none'
+    document.getElementById('next-page-button').style.display = 'none';
     
-    // load quiz header
+    // load quiz question text into elements
+    let questions = document.getElementsByClassName('question-text');
+    for (let i = 0; i < questions.length; i++) {
+        questions[i].innerText = storyData.currentData.questions[i];
+    }
 
-    // load quiz questions and text boxes
+    // display quiz questions and answer boxes
+    document.getElementById('quiz-template').style.display = 'initial';
+
+    // only display a question if there is text to load into it
+    // do this using math instead of if statements to make the code cleaner, because who wants five (almost)identical if statements in a row
+    // since every quiz challenge section has at least 3 questions, their cooresponding elements will not be included in this, and will always be displayed.
+    document.getElementById('question-4').style.display = 'initial'.repeat(+(storyData.currentData.questions[3] != '')) + 'none'.repeat(+(storyData.currentData.questions[3] === ''));
+    document.getElementById('question-5').style.display = 'initial'.repeat(+(storyData.currentData.questions[4] != '')) + 'none'.repeat(+(storyData.currentData.questions[4] === ''));
+
+
+
 
     // load submit button
+    document.getElementById('submit-answers-button').style.display = 'initial';
+
     // submit button will:
-        // determine how many correct answers the user submitted
-        // display the win text if the user got at least 3 correct answers
-        // display the lose text if the user didn't do enough, and then it will set the choice path to 11, which leads to angry parents
-        // display the page change buttons
+
+    // determine how many correct answers the user submitted
+    // change the text boxes to regular text of what the user put into the text box
+    // display a green 'correct!', or a red 'incorrect!' and the solution below
+    // display 'you pass!' at the bottom if the user got at least 3 correct answers, and 'you fail!' if the user got less than 3 correct answers
+    // the 'submit' button will go away, and a 'continue' button will appear
+
+    // when the continue button is pressed:
+
+    // reset all question challenge styles and variables back to their defaults
+
+    // display the win text if the user got at least 3 correct answers
+    // display the lose text if the user didn't do enough, and then it will set the choice path to 11, which leads to angry parents
+    // display the page change buttons
 
 
     return;
+}
+
+
+
+// function for the submit button to handle the data for the question challenge
+function submitAnswers() {
+
+    // load inputs
+    let inputs = [];
+
+    // have separate variable store the raw input data
+    let inputValues = [];
+
+
+    // get all question boxes
+    let questionInputs = document.getElementsByClassName('question-input');
+
+    // loop over every question box
+    for (let questionInput of questionInputs) {
+
+        // push value to input array
+        inputs.push(questionInput.value);
+
+        // push value to separate array
+        inputValues.push(questionInput.value);
+
+        // hide question box
+        questionInput.style.display = 'none';
+    }
+
+    // replace input values with bool values converted to integers to represent whether or not they are correct
+    for (let i = 0; i < inputs.length; i++) {
+
+        // replace input value with comparison output of the input and the correct solution
+        inputs[i] = +(inputs[i] == storyData.currentData.solutions[i]);
+
+        console.log('value: ' + inputs[i]);
+    }
+
+    // load question output text
+    let questionInputValues = document.getElementsByClassName('question-inputted-answer');
+
+    // loop over every question output text element
+    for (let i = 0; i < questionInputValues.length; i++) {
+        
+        // assign element the cooresponding value
+        questionInputValues[i].innerText = inputValues[i];
+
+        // prevent text showing as 'undefined'
+        if (inputValues[i] == '') {
+            questionInputValues[i] = 'answer not given';
+        }
+    }
+
+    // load text to tell the user if they inputted a correct answer
+    let answerOutputs = document.getElementsByClassName('question-answer-output');
+
+    // load solution text in case the user inputted a wrong answer
+    let solutionOutputs = document.getElementsByClassName('question-solution-text');
+    for (let i = 0; i < solutionOutputs.length; i++) {
+        
+        // change text to solution text
+        solutionOutputs[i].innerText = 'solution: ' + storyData.currentData.solutions[i];
+    }
+
+    // loop over every answer output
+    for (let i = 0; i < answerOutputs.length; i++) {
+
+        // set answer output values
+        if (inputs[i]) {
+            
+            // update text and text color
+            answerOutputs[i].innerText = 'Correct!';
+            answerOutputs[i].style.color = 'greenyellow';
+
+        } else {
+
+            // update text and text color
+            answerOutputs[i].innerText = 'Incorrect!';
+            answerOutputs[i].style.color = 'red';
+
+            // display correct solution
+            // solutionOutputs[i].style.display = 'initial';
+        }
+
+
+
+
+
+    }
+
+
+    // display question output text
+    // use the same math as in the 'quizChallenge' to only display elements if there is data to be displayed
+    document.getElementById('question-1-output').style.display = 'initial';
+    document.getElementById('question-2-output').style.display = 'initial';
+    document.getElementById('question-3-output').style.display = 'initlal';
+    document.getElementById('question-4-output').style.display = 'initial'.repeat(+(storyData.currentData.solutions[3] != '')) + 'none'.repeat(+(storyData.currentData.solutions[3] == ''));
+    document.getElementById('question-5-output').style.display = 'initial'.repeat(+(storyData.currentData.solutions[4] != '')) + 'none'.repeat(+(storyData.currentData.solutions[4] == ''));
+
+
+
+
+
+
+
 }
 
 
@@ -706,7 +860,7 @@ function choiceSelector() {
         loadNewInfo();
 
         // call function to change display and change the choice path
-        moveChoiceBoxes();
+        moveChoiceButtons();
 
         // exit function to skip unnecessary code
         return;
@@ -744,14 +898,13 @@ function choiceSelector() {
 
 
 
-function moveChoiceBoxes() {
+function moveChoiceButtons() {
 
-    // remove choice boxes
-    document.getElementById('choice-button-1').style.display = 'none';
-    document.getElementById('choice-button-2').style.display = 'none';
-    document.getElementById('choice-button-3').style.display = 'none';
-    document.getElementById('choice-button-4').style.display = 'none';
-    document.getElementById('choice-button-5').style.display = 'none';
+    // remove choice buttons
+    let choiceButtons = document.getElementsByClassName('choice-button');
+    for (let choiceButton of choiceButtons) {
+        choiceButton.style.display = 'none';
+    }
 
     // add text
     document.getElementById('story-text').innerText = storyData.allPages[storyData.allPages.length - 1];
@@ -850,12 +1003,8 @@ function displayText() {
     document.getElementById('story-text').innerText = storyData.allPages[storyData.pageNumber];
 
     // make placeholder variables for choice buttons
-    let choiceButton1 = document.getElementById('choice-button-1');
-    let choiceButton2 = document.getElementById('choice-button-2');
-    let choiceButton3 = document.getElementById('choice-button-3');
-    let choiceButton4 = document.getElementById('choice-button-4');
-    let choiceButton5 = document.getElementById('choice-button-5');
-    let choiceButtons = [choiceButton1, choiceButton2, choiceButton3, choiceButton4, choiceButton5];
+    let choiceButtons = document.getElementsByClassName('choice-button');
+
 
     // check if choice buttons should be displayed, and if they aren't displayed yet
     if (storyData.displayChoiceButtons) {

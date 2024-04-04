@@ -4,17 +4,75 @@ body {
     font-family: sans-serif;
     margin: 0;
     padding: 0;
+    text-align: center;
 }
 
-.hidden-on-load {
+#header {
+    background-image: url('../assets/header background.jpg');
+    background-size: cover;
+    margin: 0 auto;
+    margin-bottom: 3rem;
+    padding: 1rem;
+    font-size: 5rem;
+}
+
+#start-button {
+    background-color: cornflowerblue;
+    border-radius: 0.7rem;
+    border-width: 0;
+    font-size: 3rem;
+    width: 10rem;
+    height: 4rem;
+}
+
+#story-text {
+    font-size: 3rem;
+    width: 80rem;
+    background-color: grey;
+    border-radius: 2rem;
+    padding: 1rem;
+    text-align: center;
+    margin: 5rem auto;
+}
+
+#page-buttons {
     display: none;
+    justify-content: center;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.change-page-button {
+    width: 50%;
+    height: 100%;
+    background: none;
+    border: none;
+    display: inline-block;
+    position: initial;
+    z-index: 0;
+}
+
+.choice-button {
+    font-size: 2.5rem;
+    text-align: center;
+    margin: 0.5rem;
+    padding: 0.3rem 1.8rem;
+    border-radius: 2rem;
+    border-width: 0;
+    background-color: cornflowerblue;
+    cursor: pointer;
 }
 
 #quiz-template {
     position: absolute;
-    left: 29.8rem;
+    text-align: left;
+    left: 30.8rem;
     top: 32.5rem;
-    width: 62.3rem;
+    width: 58rem;
     height: 108rem;
     /* border: 0.125rem solid red; */
 }
@@ -26,6 +84,11 @@ body {
 }
 
 .question-text {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.quiz-question {
     font-size: 1.2rem;
 }
 
@@ -38,24 +101,40 @@ body {
 #submit-answers-button {
     background-color: cornflowerblue;
     margin: 0 auto;
-    border-radius: 0.6rem;
-    font-size: 2rem;
-    width: 7.2rem;
-    height: 2.5rem;
+    border-radius: 0.7rem;
+    border-width: 0;
+    font-size: 2.1rem;
+    width: 7.5rem;
+    height: 2.7rem;
 }
 
 #quiz-continue-story {
     background-color: cornflowerblue;
-    border-radius: 0.6rem;
+    border-radius: 0.7rem;
+    border-width: 0;
     margin: 0 auto;
-    font-size: 2rem;
-    width: 9.1rem;
-    height: 2.5rem;
+    font-size: 2.1rem;
+    width: 9.3rem;
+    height: 2.7rem;
 }
 
-.change-page-button {
-    width: 50%;
-    height: 100%;
-    border: none;
+.in-front {
+    position: relative;
+    z-index: 1;
+}
+
+.grow { 
     cursor: pointer;
+    transition: all .2s ease-in-out; 
+}
+
+.grow:hover { 
+    transform: scale(1.1); 
+}
+
+
+
+
+.hidden-on-load {
+    display: none;
 }

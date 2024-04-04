@@ -9,29 +9,32 @@
 
     <body>
 
-        <h1>A Day at School</h1>
+        <h1 id="header" class="in-front">A Day at School</h1>
 
-        <p id="story-text">
-            Click on the left and right sides of the screen to cycle through each panel of text
-        </p>
+        <p id="story-text">Click on the left and right sides of the screen to cycle through each panel of text.</p>
 
-        <button type="button" id="start-button" onclick="beginStory();">Start</button>
+        <button type="button" id="start-button" class="in-front grow" onclick="beginStory();">Start</button>
 
-        <button type="button" id="previous-page-button" class="change-page-button hidden-on-load" onclick="changePage(-1);">previous</button>
-        <button type="button" id="next-page-button"     class="change-page-button hidden-on-load" onclick="changePage(1);">next</button>
+        <!-- put these buttons in a div, use absolute positioning on the div, and then do the inline block thingy with the buttons. -->
+        <div id="page-buttons" class="hidden-on-load" class="in-front">
+            <button type="button" id="previous-page-button" class="change-page-button" class="in-front" onclick="changePage(-1);"></button>
+            <button type="button" id="next-page-button"     class="change-page-button" class="in-front" onclick="changePage(1);"></button>
+        </div>
 
-        <button type="button" id="continue-story-button" class="hidden-on-load" onclick="continueStory();"></button>
-
-        <button type="button" id="choice-button-1" class="choice-button hidden-on-load" onclick="makeChoice('1');"></button>
-        <button type="button" id="choice-button-2" class="choice-button hidden-on-load" onclick="makeChoice('2');"></button>
-        <button type="button" id="choice-button-3" class="choice-button hidden-on-load" onclick="makeChoice('3');"></button>
-        <button type="button" id="choice-button-4" class="choice-button hidden-on-load" onclick="makeChoice('4');"></button>
-        <button type="button" id="choice-button-5" class="choice-button hidden-on-load" onclick="makeChoice('5');"></button>
+        <button type="button" id="choice-button-1" class="choice-button hidden-on-load in-front grow" onclick="makeChoice('1');"></button>
+        <br>
+        <button type="button" id="choice-button-2" class="choice-button hidden-on-load in-front grow" onclick="makeChoice('2');"></button>
+        <br>
+        <button type="button" id="choice-button-3" class="choice-button hidden-on-load in-front grow" onclick="makeChoice('3');"></button>
+        <br>
+        <button type="button" id="choice-button-4" class="choice-button hidden-on-load in-front grow" onclick="makeChoice('4');"></button>
+        <br>
+        <button type="button" id="choice-button-5" class="choice-button hidden-on-load in-front grow" onclick="makeChoice('5');"></button>
 
 
         <!-- have a div that is sized to fit the page on the background, and use absolute positioning to place it on the background paper properly -->
 
-        <div id="quiz-template" class="hidden-on-load">
+        <div id="quiz-template" class="hidden-on-load in-front">
 
             <h2 id="quiz-header"><b>
                 Grade 11 MCR3U
@@ -47,7 +50,7 @@
 
             </pre>
 
-            <div id="question-1">
+            <div id="question-1" class="quiz-question">
                 <p class="question-text"><b id="question-1-text">1. text</b></p>
                 <input type="text" required="required" id="question-1-input" class="question-input">
 
@@ -67,7 +70,7 @@
                 </pre>
             </div>
 
-            <div id="question-2">
+            <div id="question-2" class="quiz-question">
                 <p class="question-text"><b id="question-2-text">2. text</b></p>
                 <input type="text" required="required" id="question-2-input" class="question-input">
 
@@ -86,7 +89,7 @@
                 </pre>
             </div>
 
-            <div id="question-3">
+            <div id="question-3" class="quiz-question">
                 <p class="question-text"><b id="question-3-text">3. text</b></p>
                 <input type="text" required="required" id="question-3-input" class="question-input">
 
@@ -105,7 +108,7 @@
                 </pre>
             </div>
 
-            <div id="question-4" class="hidden-on-load">
+            <div id="question-4" class="hidden-on-load quiz-question">
                 <p class="question-text"><b id="question-4-text">4. text</b></p>
                 <input type="text" required="required" id="question-4-input" class="question-input">
 
@@ -124,7 +127,7 @@
                 </pre>
             </div>
 
-            <div id="question-5" class="hidden-on-load">
+            <div id="question-5" class="hidden-on-load quiz-question">
                 <p class="question-text"><b id="question-5-text">5. text</b></p>
                 <input type="text" required="required" id="question-5-input" class="question-input">
 
@@ -143,8 +146,8 @@
                 </pre>
             </div>
 
-            <button type="button" id="submit-answers-button" class="hidden-on-load" onclick="submitAnswers();">Submit</button>
-            <button type="button" id="quiz-continue-story" class="hidden-on-load" onclick="quizContinueStory();">Continue</button>
+            <button type="button" id="submit-answers-button" class="hidden-on-load grow" onclick="submitAnswers();">Submit</button>
+            <button type="button" id="quiz-continue-story" class="hidden-on-load grow" onclick="quizContinueStory();">Continue</button>
         </div>
 
 

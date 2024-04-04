@@ -18,6 +18,38 @@ function containsObject(object, array) {
     return false;
 }
 
+
+
+// enumeration for the different background images for the arm wrestle challenge
+const ArmImages = {
+    Lose: 'url("assets/arm lose.jpg")',
+    Losing: 'url("assets/arm losing.jpg")',
+    Equal: 'url("assets/arm equal.jpg")',
+    Winning: 'url(assets/arm winning.jpg")',
+    Win: 'url("assets/arm win")'
+};
+
+// object to act as a dictionary to allow variables for the arm wresling challenge to be used globally
+const ArmWrestleData = {
+
+    // dictionary item to store the game loop delay (ms)
+    loopSpeed: 10,
+
+    // dictionary item to store the user's arm strength (hp)
+    armStrength: 50,
+
+    // dictionary item to store the current hp drain rate interval (amount of loops before hp is drained by 1)
+    drainRate: 20,
+
+    // dictionary item to store the amount of game loops that have passed since the last hp drain
+    timeSinceLastDrain: 0,
+
+    // variable to store the current background state to display
+    backgroundImage: ArmImages.Equal
+};
+
+
+
 // enumeration for the different types of story sections
 const TypeOptions = {
     Normal: 'normal',
@@ -71,59 +103,43 @@ const storyData = {
 
     '': {
         text: [
-            'BEEP BEEP BEEP you hear. it\'s 8am, and\nthe sound of your alarm clock has woken\nyou up on monday for school. you get up,\nget dressed and cleaned up, and then\nyou eat and get on the bus to go to school.',
-            'after you get to school and get to math\nclass, you realize that you forgot to do your \nhomework, as you played video games all\nweekend.',
-            'you know that your teacher and parents\nhate it when homework isn\'t done,\nand as the teacher is coming around\nchecking homework, you start panicking,\nas you don\'t know what to do.',
-            'This is your first choice,\nand it will decide how the story\ncontinues from this point on.\nChoose wisely.'
+            'BEEP BEEP BEEP you hear. It\'s 8am, and the sound of your alarm clock has woken you up on monday for school. You get up, get dressed and cleaned up, and then you eat and get on the bus to go to school.',
+            'After you get to school and get to math class, you realize that you forgot to do your homework, as you played video games all weekend.',
+            'You know that your teacher and parents hate it when homework isn\'t done, and as the teacher is coming around checking homework, you start panicking, as you don\'t know what to do.',
+            'This is your first choice, and it will decide how the story continues from this point on. Choose wisely.'
         ],
         choiceText: [
-            'tell the teacher your dog ate your homework', 
-            'tell the teacher the truth', 
-            'tell the teacher that you didn\'t do the homework because it was too easy', 
-            'fight the teacher', 
-            'mystery'
-        ],
-        questions: [
-            '1. question 1',
-            '2. question 2',
-            '3. question 3',
-            '4. question 4',
-            ''
-        ],
-        solutions: [
-            'test1',
-            'test2',
-            'test3',
-            'test4',
-            'e'
+            'Tell the teacher your dog ate your homework', 
+            'Tell the teacher the truth', 
+            'Tell the teacher that you didn\'t do the homework because it was too easy', 
+            'Fight the teacher', 
+            'Mystery'
         ],
         sectionType: TypeOptions.Normal,
-        win: 'yes',
-        lose: 'no'
     },
 
     '1': {
         text: [
-            'teacher: Your dog didn\'t eat your homework.\nyou: I assure you, he did.',
-            'teacher: That\'s impossible!\nThe homework was online!\ndogs don\'t eat computers!\nYou\'ve made me really angry now.\nI\'m calling your parents!',
-            'after realizing your mistake,\nyou start thinking about what you will do.\ndo you:'
+            'Teacher: Your dog didn\'t eat your homework. You: I assure you, he did.',
+            'Teacher: That\'s impossible! The homework was online! Dogs don\'t eat computers! You\'ve made me really angry now. I\'m calling your parents!',
+            'After realizing your mistake, you start thinking about what you will do. do you:'
         ],
         choiceText: [
-            'accept the punishment', 
-            'fight the teacher', 
-            'tell the teacher you can prove you did your homework\nby answering homework questions', 
-            'mystery',
+            'Accept the punishment', 
+            'Fight the teacher', 
+            'Tell the teacher you can prove you did your homework by answering homework questions', 
+            'Mystery',
             ''
         ],
         sectionType: TypeOptions.Normal
     },
 
     '11': { 
-        text: ['the teacher called your parents.\nwhen you get home, you are scolded\nand sent to your room while\nthey think of a punishment.\nwhat will you do?'],
+        text: ['The teacher called your parents. When you get home, You are scolded and sent to your room while they think of a punishment. What will you do?'],
         choiceText: [
-            'accept the punishment',
-            'fight your parents',
-            'mystery',
+            'Accept the punishment',
+            'Fight your parents',
+            'Mystery',
             '', ''
         ],
         sectionType: TypeOptions.Normal
@@ -131,8 +147,8 @@ const storyData = {
 
     '111': {
         text: [
-            'you choose to accept the punishment.\nyou are grounded for a month\nwith your devices taken away for 2 months.',
-            'YOU LOSE'
+            'You choose to accept the punishment. You are grounded for a month with your devices taken away for 2 months.',
+            'You get too bored from not having your computer for so long, and so you die.\nYOU LOSE'
         ],
         choiceText: ['', '', '', '', ''],
         sectionType: TypeOptions.Normal
@@ -140,13 +156,13 @@ const storyData = {
 
     '112': {
         text: [
-            'parents:\nwe\'re so dissapointed in you.\nnow that we\'ve had time to think\nabout what we will do, we will\nbe grounding you for a month and\ntaking away your computer for 2.',
-            'horrified at the thought of this,\nyou decide that you will fight\nyour parents for your freedom.\nyou: I won\'t let you do that!\nNot without a fight!',
-            'dad: even if you want to fight, I\'m not actually going to fight.\nlet\'s settle this with an arm wresle.'
+            'Parents: We\'re so dissapointed in you. Now that we\'ve had time to think about what we will do, we will be grounding you for a month and taking away your computer for 2.',
+            'Horrified at the thought of this, you decide that you will fight your parents for your freedom. You: I won\'t let you do that! Not without a fight!',
+            'Dad: Even if you want to fight, I\'m not actually going to fight. Let\'s settle this with an arm wresle.'
         ],
         choiceText: [
-            'fight',
-            'don\'t fight',
+            'Fight',
+            'Don\'t fight',
             '', '', ''
         ],
         sectionType: TypeOptions.Normal
@@ -176,7 +192,7 @@ const storyData = {
 
     '1122': {
         text: [
-            'you choose to accept the punishment.\n your dad sneers at you, and says:\n good choice. you wouldn\'t want\n to fight me.\nyou are grounded for a month,\nand your devices are taken away for 2 months.',
+            'You choose to accept the punishment. Your dad sneers at you, and says: \"Good choice. You wouldn\'t want to fight me. You are grounded for a month, and your devices will be taken away for 2 months.\"',
             'YOU LOSE'
         ],
         choiceText: ['', '', '', '', ''],
@@ -185,8 +201,8 @@ const storyData = {
 
     '113': {
         text: [
-            'in a hurry, you flee from the\ncountry and go to the USA.\nwhen you get past the border,\nyou rent an apartment,\nenroll in a new school,\nand start a new life.',
-            'a few weeks into school,\nyou forget your homework again.\nthis seems familiar...',
+            'In a hurry, you flee from the country and go to the USA. When you get past the border, you rent an apartment, enroll in a new school, and start a new life.',
+            'A few weeks into school, you forget your homework again. This seems familiar...',
             'YOU LOSE'
         ],
         choiceText: ['', '', '', '', ''],
@@ -195,13 +211,13 @@ const storyData = {
 
     '12': {
         text: [
-            'you: get ready,\nbecause I\'m about to fight you.',
-            'teacher: well this is my class,\nso you\'re fighting by my rules!\nMath battle!'
+            'You: Get ready, because I\'m about to fight you.',
+            'Teacher: Well this is my class, so you\'re fighting by my rules! Math battle!'
         ],
         choiceText: [
-            'accept fight',
-            'refuse fight',
-            'mystery',
+            'Accept fight',
+            'Refuse fight',
+            'Mystery',
             '', ''
         ],
         sectionType: TypeOptions.Normal
@@ -209,7 +225,7 @@ const storyData = {
 
     '121': {
         text: [
-            'you choose to accept the fight. but what\nthe teacher doesn\'t know is that you\nwere lying about accepting it on his terms.\n',
+            'You choose to accept the fight. But what the teacher doesn\'t know is that you were lying about accepting it on his terms.',
             
 
             
@@ -230,15 +246,15 @@ const storyData = {
 
     '123': {
         text: [
-            'you throw your desk at your teacher.\nit hits him really hard,\nknocking him over with a yelp of pain.\n',
-            'when the ambulance comes,\nyou find out you broke some of his ribs.'
+            'You throw your desk at your teacher. It hits him really hard, knocking him over with a yelp of pain. ',
+            'When the ambulance comes, you find out you broke some of his ribs.'
         ],
     },
 
     '13': {
         text: [
-            'I can prove that I did my homework,\nand that my dog actually ate my computer,\neven though I don\'t have my computer.',
-            'teacher: and how will you do that?\nyou: by answering some\nquestions from the homework.\nteacher: haha. good luck'
+            'I can prove that I did my homework, and that my dog actually ate my computer, even though I don\'t have my computer.',
+            'Teacher: And how will you do that? You: By answering some questions from the homework. Teacher: Haha. Good luck.'
 
 
 
@@ -250,30 +266,30 @@ const storyData = {
 
         ],
         questions: [
-            '1.\nif you pick 4 points at random \non the surface of a sphere,\nand draw lines connecting them all\ntogether, making a 3D shape,\nwhat is the probability that the\ncenter of the circle will\nbe within the shape?',
-            '2.\nsolve: 2 x^2y^11 + 3xy^1 - 15y = 0,\ny(1) = 0 y^1 (1) = 1',
+            '1.\nIf you pick 4 points at random \non the surface of a sphere,\nand draw lines connecting them all\ntogether, making a 3D shape,\nwhat is the probability that the\ncenter of the circle will\nbe within the shape?',
+            '2.\nSolve: 2 x^2y^11 + 3xy^1 - 15y = 0,\ny(1) = 0 y^1 (1) = 1',
             '3.\nWhat property of the universe is\nresponsible for making things near\nblack holes experience time slower?',
             '', ''
         ],
         solutions: [
             '1/8',
             'y(x) = 0.2x^2.5 - 0.2x^-3',
-            'mass warping space time',
+            'Mass warping space time',
             'e', 'e'
             // the reason I've put text in the last two solutions is because the text boxes that coorespond to these two can't be typed in, 
             // and so this prevents the user from getting a correct answer evaluation from text box that isn't displayed.
             // the contents of the text box won't be able to equal the solution.
         ],
         sectionType: TypeOptions.Quiz,
-        win: 'you cheated.\nYOU LOSE',
-        lose: 'you lied! you didn\'t do your homework!\nI\'m calling your parents to\ntell them you lied to my\nface about doing your homework.'
+        win: 'You cheated. YOU LOSE',
+        lose: 'You lied! You didn\'t do your homework! I\'m calling your parents to tell them you lied to my face about doing your homework.'
     },
 
     '14': {
         text: [
-            'you take your chewed up, bent\nand broken computer of your bag.\nthe teacher stares at it in confusion\nand awe for a moment, before speaking.',
-            'teacher: wow.\nyour dog really did eat your homework.\nI didn\'t think that was possible.\nsorry for the misunderstanding.',
-            'YOU WIN\n you don\'t get in trouble for\n not doing your homework,\n since you couldn\'t do it.'
+            'You take your chewed up, bent and broken computer of your bag. The teacher stares at it in confusion and awe for a moment, before speaking.',
+            'Teacher: Wow. Your dog really did eat your homework. I didn\'t think that was possible. Sorry for the misunderstanding.',
+            'You don\'t get in trouble for not doing your homework, since you couldn\'t do it.\nYOU WIN'
         ],
         choiceText: ['', '', '', '', ''],
         sectionType: TypeOptions.Normal
@@ -281,36 +297,35 @@ const storyData = {
 
     '2': {
         text: [
-            'teacher: well then how prepared are you\nfor todays pop quiz?',
-            'you realize that you don\'t know the stuff\non the homework, meaning you will\nmost likely fail the quiz.\nWhat will you do?'
+            'Teacher: Well then how prepared are you for todays pop quiz?',
+            'You realize that you don\'t know the stuff on the homework, meaning you will most likely fail the quiz. What will you do?'
         ],
         choiceText: [
-            'attempt the quiz',
-            'try to cheat on the quiz',
-            'fight the teacher',
-            'mystery',
+            'Attempt the quiz',
+            'Try to cheat on the quiz',
+            'Fight the teacher',
+            'Mystery',
             ''
         ],
         sectionType: TypeOptions.Normal
     },
 
     '21': {
-        text: ['you try the quiz.\nyou fail the quiz since you didn\'t\nunderstand the contents of it since\nyou didn\'t do your homework.\nyour parents find out.']
+        text: ['You try the quiz. You fail the quiz since you didn\'t understand the contents of it since you didn\'t do your homework. Your parents find out.']
     },
 
     '22': {
         text: [
-            'you try to cheat on the quiz by looking\nover at peope around you. when you\nfinish the quiz, you think that you did\npretty good, and you go to hand it to the\n',
-            'teacher. as soon as you hand it to the\nteacher, he rips it up in front of you. teacher:\n',
-            'I know you cheated! I saw you looking over at\npeople all around you for answers. I dont\nneed to look at this to know your mark.\nit\'s a 0.'
+            'You try to cheat on the quiz by looking over at peope around you. When you finish the quiz, you think that you did pretty good, and you go to hand it to the teacher.',
+            'As soon as you hand it to the teacher, he rips it up in front of you. Teacher: I know you cheated! I saw you looking over at people all around you for answers. I dont need to look at this to determine your mark. It\'s a 0.'
         ]
     },
 
     '23': {
         text: [
-            'you: get ready,\nbecause I\'m about to fight you.\nteacher: well this is my class,\nso you\'re fighting by my rules!\nMath battle!',
-            'being the idiot you are,\nyou blindly accept the fight,\nthinking you will be fine.\nThe teacher hands you a pencil and paper,\nand sits down at a desk next to you.',
-            'teacher: the rules are simple.\nwe are both given the same question,\nmand the first to answer it correctly\ngets a point. first to 3 points wins.\ncalculators allowed.'
+            'You: Get ready, because I\'m about to fight you. Teacher: Well this is my class, so you\'re fighting by my rules! Math battle!',
+            'Being the idiot you are, you blindly accept the fight, thinking you will be fine. The teacher hands you a pencil and paper, and hands you the quiz paper.',
+            'Teacher: The rules are simple. You just have to get at least 3 correct answers, and you win.'
 
 
 
@@ -321,11 +336,11 @@ const storyData = {
 
         ],
         questions: [
-            '1.\nsquare the number 392.',
-            '2.\nsolve: a^2 + b^2 = 1\nc^2 + d^2 = 2\n(ac + bd)^2 + (ad - bc)^2 = ?',
-            '3.\ncalculate the minimum number of turns\nneeded to solve every possible scramble\non a standard 3x3x3 rubiks cube.',
-            '4.\nx = 1, y = 10, solve:\ndy / dx = (10x - 1) / (4 + 3y^2)',
-            '5.\nk = 33, solve for x, y, z:\nx^3 + y^3 + z^3 = k'
+            '1.\nSquare the number 392.',
+            '2.\nSolve: a^2 + b^2 = 1\nc^2 + d^2 = 2\n(ac + bd)^2 + (ad - bc)^2 = ?',
+            '3.\nCalculate the minimum number of turns\nneeded to solve every possible scramble\non a standard 3x3x3 rubiks cube.',
+            '4.\nx = 1, y = 10\nSolve:\ndy / dx = (10x - 1) / (4 + 3y^2)',
+            '5.\nk = 33,\nSolve for x, y, z:\nx^3 + y^3 + z^3 = k'
         ],
         solutions: [
             '153664',
@@ -335,27 +350,28 @@ const storyData = {
             'X = -80538738812075974\nY = 80435758145817515\nZ = 12602123297335631'
         ],
         sectionType: TypeOptions.Quiz,
-        win: 'you cheated.\nYOU LOSE',
-        lose: 'teacher: looks like you lose.\nI wonder why.\nyour parents will be finding out soon.'
+        win: 'You cheated.\nYOU LOSE',
+        lose: 'Teacher: Looks like you lose. I wonder why. Your parents will be finding out soon.'
     },
 
     '24': {
         text: [
-            'you: actually,\nI\'m going to give you a quiz.\nand if you fail, I\'m going to tell\nthe school board that you aren\'t good\nenough at math to teach this class.',
-            'teacher: no thanks.\nyou can\'t make me do anything,\nso I don\'t have to do your quiz.\nhowever, you have to do mine, or I\nwill assume you didn\'t do your homework.'
+            'You: actually, I\'m going to give you a quiz. And if you fail, I\'m going to tell the school board that you aren\'t good enough at math to teach this class.',
+            'Teacher: No thanks. In my own classroom, you can\'t make me do anything, so I don\'t have to do your quiz. However, you have to do mine, or I will assume you didn\'t do your homework.'
         ],
         choiceText: [
-            'take the quiz',
-            'don\'t take the quiz'
+            'Take the quiz',
+            'Don\'t take the quiz',
+            '', '', ''
         ],
         sectionType: TypeOptions.Normal
     },
 
     '241': {
-        text: ['you choose to take the teachers quiz.'],
+        text: ['You choose to take the teachers quiz.'],
         questions: [
-            '1.\nif you pick 4 points at random \non the surface of a sphere,\nand draw lines connecting them all\ntogether, making a 3D shape,\nwhat is the probability that the\ncenter of the circle will\nbe within the shape?',
-            '2.\nsolve: 2 x^2y^11 + 3xy^1 - 15y = 0,\ny(1) = 0 y^1 (1) = 1',
+            '1.\nIf you pick 4 points at random \non the surface of a sphere,\nand draw lines connecting them all\ntogether, making a 3D shape,\nwhat is the probability that the\ncenter of the circle will\nbe within the shape?',
+            '2.\nSolve: 2 x^2y^11 + 3xy^1 - 15y = 0,\ny(1) = 0 y^1 (1) = 1',
             '3.\nWhat property of the universe is\nresponsible for making things near\nblack holes experience time slower?',
             '', ''
 
@@ -371,30 +387,30 @@ const storyData = {
         solutions: [
             '1/8',
             'y(x) = 0.2x^2.5 - 0.2x^-3',
-            'mass warping space time',
+            'Mass warping space time',
             'e', 'e'
         ],
         sectionType: TypeOptions.Quiz,
-        win: 'you cheated.\nYOU LOSE',
-        lose: 'teacher: you failed the quiz.\nI\'m sure your parents will be\ndelighted to hear about this.'
+        win: 'You cheated.\nYOU LOSE',
+        lose: 'Teacher: You failed the quiz. I\'m sure your parents will be delighted to hear about this.'
     },
 
     '3': {
         text: [
-            'teacher: oh, well that\'s good. Then I\nassume that you wlll be able to ace the\npop quiz today, because if you don\'t, your\nparents will be delighted to hear that\nyou didn\'t do your homework\nand failed a quiz because of it.',
-            'after realizing what you\'ve gotten yourself into,\nyou must now choose what you will do.'
+            'Teacher: Oh, well that\'s good. Then I assume that you wlll be able to ace the pop quiz today, because if you don\'t, your parents will be delighted to hear that you didn\'t do your homework and failed a quiz because of it.',
+            'After realizing what you\'ve gotten yourself into, you must now choose what you will do.'
         ],
         choiceText: [
-            'attempt the quiz',
-            'fight the teacher',
-            'mystery',
+            'Attempt the quiz',
+            'Fight the teacher',
+            'Mystery',
             '', ''
         ],
         sectionType: TypeOptions.Normal
     },
     
     '31': {
-        text: ['you choose to attempt the quiz.'
+        text: ['You choose to attempt the quiz.'
     
     
     
@@ -406,9 +422,9 @@ const storyData = {
     
     ],
         questions: [
-            '1.\nsolve: 6 / 2(1 + 2)',
+            '1.\nSolve: 6 / 2(1 + 2)',
             '2.\n1 + 4 = 5\n2 + 5 = 12\n3 + 6 = 21\n8 + 11 = ?',
-            '3.\nsolve for x: 3x = (5 + (4^2 + 6^2)) - 5(5! -3)',
+            '3.\nSolve for x: 3x = (5 + (4^2 + 6^2)) - 5(5! -3)',
             '', ''
         ],
         solutions: [
@@ -418,14 +434,14 @@ const storyData = {
             'e', 'e'
         ],
         sectionType: TypeOptions.Quiz,
-        win: 'teacher: wow. you really are smart\nenough to ace the quiz without doing\nhomework. sorry for bothering you.\nYOU WIN',
-        lose: 'teacher: well well well.\nyou didn\'t do good on the quiz.\nI wonder why. I think your parents\nwill be interested to hear about this.'
+        win: 'Teacher: Wow. You really are smart enough to ace the quiz without doing homework. Sorry for bothering you.\nYOU WIN',
+        lose: 'Teacher: Well well well. You didn\'t pass the quiz. I wonder why. I think your parents will be interested to hear about this.'
     },
 
     '32': {
         text: [
-            'you: get ready,\nbecause I\'m about to fight you.',
-            'teacher: well this is my class,\nso you\'re fighting by my rules!\nMath battle!'
+            'You: get ready, because I\'m about to fight you.',
+            'Teacher: Well this is my class, so you\'re fighting by my rules! Math battle!'
         ],
         choiceText: [
             'accept fight',
@@ -436,13 +452,13 @@ const storyData = {
     },
 
     '321': {
-        text: ['teacher: the rules are simple.\nwe are both given the same question,\nmand the first to answer it correctly\ngets a point. first to 3 points wins.\ncalculators allowed.'],
+        text: ['teacher: the rules are simple. I\'m going to give you a quiz, and you have to get at least 3 correct answers to win.'],
         questions: [
-            '1.\nfind the square root of x:\n3x = 6(5! - 3) - ((3^3)6 - (5! - 6^2) - (6^2))',
-            '2.\nsquare the number 392.',
-            '3.\nsimplify:\n(x + 5y)^2',
-            '4.\nfactor:\n3x^2 - 8x - 3',
-            '5.\nfactor fully:\n4(x^2 + 10x + 25) - 4x^2 - 24x - 36'
+            '1.\nFind the square root of x:\n3x = 6(5! - 3) - ((3^3)6 - (5! - 6^2) - (6^2))',
+            '2.\nSquare the number 392.',
+            '3.\nSimplify:\n(x + 5y)^2',
+            '4.\nFactor:\n3x^2 - 8x - 3',
+            '5.\nFactor fully:\n4(x^2 + 10x + 25) - 4x^2 - 24x - 36'
 
 
 
@@ -459,38 +475,38 @@ const storyData = {
             '16(x + 4)'
         ],
         sectionType: TypeOptions.Quiz,
-        win: 'teacher: well, you win.\nI guess you didn\'t need to do your homework.\nYOU WIN',
-        lose: 'teacher: looks like you lose.\nI guess you should\'ve done your homework.\nyour parents will be finding out soon.'
+        win: 'Teacher: Well, you win. I guess you didn\'t need to do your homework.\nYOU WIN',
+        lose: 'Teacher: Looks like you lose. I guess you should\'ve done your homework. Your parents will be finding out soon.'
     },
 
     '322': {
-        text: ['well then I\'m going to phone your parents and tell them about this.']
+        text: ['Well then I\'m going to phone your parents and tell them about this.']
     },
 
     '323': {
         text: [
-            'you choose to beat up the teacher\nwith your fists. since he is in his\nfifties and you are a teen, you\neasily overpower him and beat him.\n',
-            'however, the school board ends\nup finding out, and you get expelled.'
+            'You choose to beat up the teacher with your fists. Since he is in his fifties and you are a teen, you easily overpower him and beat him. ',
+            'However, the school board ends up finding out, and you get expelled.'
         ]
     },
 
     '33': {
         text: [
-            'you: actually,\nI\'m going to give you a quiz.\nand if you fail, I\'m going to tell\nthe school board that you aren\'t good\nenough at math to teach this class.',
-            'teacher: and if I ace the quiz,\nI get to fail you for this class.'
+            'You: actually, I\'m going to give you a quiz. And if you fail, I\'m going to tell the school board that you aren\'t good enough at math to teach this class.',
+            'Teacher: And if I ace the quiz, I get to fail you for this class.'
         ],
         choiceText: [
-            'deal',
-            'no deal'
+            'Deal',
+            'No deal'
         ],
         sectionType: TypeOptions.Normal
     },
 
     '331': {
         text: [
-            'you:\ndeal.',
-            'the teacher, who underestimated\nthe size of your brain,\nended up completely failing the quiz.\nyou: well I wonder what the school\nboard will do when they hear about this.',
-            'the school board ended up punishing the\nteacher, however the punishments were\nnot disclosed to the school.\nthe teacher still has his job,\nso most likely docked pay.',
+            'You: Deal.',
+            'The teacher, who underestimated the size of your brain, ended up completely failing the quiz.\nYou: Well I wonder what the school board will do when they hear about this.',
+            'The school board ended up punishing the teacher, however the punishments were not disclosed to the school. The teacher still has his job, so the board probably lowered his salary.',
             'YOU WIN'
         ],
         choiceText: ['', '', '', '', ''],
@@ -498,20 +514,20 @@ const storyData = {
     },
 
     '332': {
-        text: ['teacher: well then I\'m going to tell\nyour parents about what has happened here\nas you have wasted too much of\nmy time for this to continue.']
+        text: ['Teacher: Well then I\'m going to tell your parents about what has happened here as you have wasted too much of my time for this to continue.']
     },
 
     '4': {
         text: [
-            'you: get ready,\nbecause I\'m about to fight you.',
-            'teacher: well this is my class,\nso you\'re fighting by my rules! Math battle!',
-            'unsure about whether or not you can\nbeat your teacher at his own game,\nyou think about what you will do'
+            'You: Get ready, because I\'m about to fight you.',
+            'Teacher: Well this is my class, so you\'re fighting by my rules! Math battle!',
+            'Unsure about whether or not you can beat your teacher at his own game, you think about what you will do'
         ],
         choiceText: [
-            'accept fight',
-            'refuse fight',
-            'run away',
-            'mystery',
+            'Accept fight',
+            'Refuse fight',
+            'Run away',
+            'Mystery',
             ''
         ],
         sectionType: TypeOptions.Normal
@@ -519,8 +535,8 @@ const storyData = {
 
     '41': {
         text: [
-            'you: I accept.',
-            'teacher: the rules are simple.\nwe are both given the same question,\nand the first to answer it correctly\ngets a point. first to 3 points wins.\ncalculators allowed.'
+            'You: I accept.',
+            'Teacher: The rules are simple. I\'m going to give you a quiz, and you just have to get at least 3 correct answers to win.'
 
 
 
@@ -532,11 +548,11 @@ const storyData = {
 
         ],
         questions: [
-            '1.\nfind the square root of x:\n3x = 6(5! - 3) - ((3^3)6 - (5! - 6^2) - (6^2))',
-            '2.\nsquare the number 392.',
-            '3.\nsimplify:\n(x + 5y)^2',
-            '4.\nfactor:\n3x^2 - 8x - 3',
-            '5.\nfactor fully:\n4(x^2 + 10x + 25) - 4x^2 - 24x - 36'
+            '1.\nFind the square root of x:\n3x = 6(5! - 3) - ((3^3)6 - (5! - 6^2) - (6^2))',
+            '2.\nSquare the number 392.',
+            '3.\nSimplify:\n(x + 5y)^2',
+            '4.\nFactor:\n3x^2 - 8x - 3',
+            '5.\nFactor fully:\n4(x^2 + 10x + 25) - 4x^2 - 24x - 36'
         ],
         solutions: [
             '14',
@@ -546,24 +562,23 @@ const storyData = {
             '16(x + 4)'
         ],
         sectionType: TypeOptions.Quiz,
-        win: 'teacher: well, you win.\nI guess you didn\'t need to do your homework.\nYOU WIN',
-        lose: 'teacher: looks like you lose.\nI guess you should\'ve done your homework.\nyour parents will be finding out soon.'
+        win: 'Teacher: Well, you win. I guess you didn\'t need to do your homework.\nYOU WIN',
+        lose: 'Teacher: Looks like you lose. I guess you should\'ve done your homework. Your parents will be finding out soon.'
     },
 
     '43': {
-        text: ['you run away. after realizing you\ncan\'t just sleep on the road,\nyou go back home to angry parents.']
+        text: ['You run away. After realizing you can\'t just sleep on the road, you go back home to angry parents.']
     },
 
     '44': {
         text: [
-            'you choose to beat up the teacher\ninstead of playing his math game.\nas a strong teen, you easily beat up\nyour math teacher who is an old man.\n',
-            '\nhowever, the school board finds\nout about this and you are expelled.']
+            'You choose to beat up the teacher instead of playing his math game. As a strong teen, you easily beat up your math teacher who is an old man. However, the school board finds out about this and you are expelled.']
     },
 
     '5': {
         text: [
-            'you noclip through the floor into the\nworst possible backrooms floor, a massive\nocean filled with man-eating monsters.',
-            'you tread water until every muscle\nin your body runs out of strengh,\nand then you sink down to the\nmonsters and get eaten alive.',
+            'You noclip through the floor into the worst possible backrooms floor, a massive ocean filled with man-eating monsters.',
+            'You tread water until every muscle in your body runs out of strengh, and then you sink down to the monsters and get eaten alive.',
             'YOU DIE'
         ],
         choiceText: ['', '', '', '', ''],
@@ -578,11 +593,13 @@ function beginStory() {
     document.getElementById('start-button').style.display = 'none';
 
     // unhide page change buttons
-    document.getElementById('previous-page-button').style.display = 'initial';
-    document.getElementById('next-page-button').style.display = 'initial';
+    document.getElementById('page-buttons').style.display = 'flex';
 
     // call function to load story data
     loadNewInfo();
+
+    // call function to update page change buttons
+    changePage(0);
 
     // run function to display text
     displayText();
@@ -632,7 +649,7 @@ function challengeSelector() {
 
         // case for arm wrestle challenge
         case TypeOptions.ArmWrestle:
-            armWrestleChallenge();
+            ArmWrestleSetup();
 
         // case for reaction test challenge
         case TypeOptions.ReactionTest:
@@ -652,7 +669,7 @@ function quizChallenge() {
     }
 
     // load background image
-    document.body.style.backgroundImage = "url('assets/school desk.jpg')";
+    document.body.style.backgroundImage = 'url("assets/school desk.jpg")';
     document.body.style.backgroundSize = 'cover';
 
     // variables to store the base size of the background image
@@ -675,8 +692,7 @@ function quizChallenge() {
     document.getElementById('story-text').innerText = 'Fill out an answer for each question.\nYou need at least 3 correct answers to pass the test.';
 
     // hide page change buttons
-    document.getElementById('previous-page-button').style.display = 'none';
-    document.getElementById('next-page-button').style.display = 'none';
+    document.getElementById('page-buttons').style.display = 'none';
     
     // load quiz question text into elements
     let questions = document.getElementsByClassName('question-text');
@@ -773,8 +789,6 @@ function submitAnswers() {
         }
     }
 
-    console.log('correct answers: ' + correctAnswers);
-
     // load question output text
     let questionInputValues = document.getElementsByClassName('question-inputted-answer');
 
@@ -786,7 +800,7 @@ function submitAnswers() {
 
         // prevent text showing as 'undefined'
         if (inputValues[i] == '') {
-            questionInputValues[i].innerText = 'answer not given';
+            questionInputValues[i].innerText = 'Answer not given';
         }
     }
 
@@ -874,8 +888,7 @@ function quizContinueStory() {
     document.body.style.backgroundColor = 'dimgrey';
 
     // display the page change buttons
-    document.getElementById('previous-page-button').style.display = 'initial';
-    document.getElementById('next-page-button').style.display = 'initial';
+    document.getElementById('page-buttons').style.display = 'flex';
 
     // check if the user won
     if (storyData.choicePath != '11') {
@@ -899,7 +912,34 @@ function quizContinueStory() {
 
 
 // function to display the arm wrestling challenge
-function armWrestleChallenge() {
+function ArmWrestleSetup() {
+
+    // variable to store the number of remaining lives the user has
+    let lives = 3;
+
+    // add background image
+    // add health bar
+
+    // blur screen
+    // put instruction text on screen
+    // add button to begin game
+
+    // button will start game loop
+
+
+
+
+
+
+    return;
+}
+
+
+
+// function for the main loop of the arm wrestling challenge
+function armWrestleLoop() {
+
+
     return;
 }
 
@@ -923,7 +963,7 @@ function choiceSelector() {
     }
 
     // check if current choice path is one of the second exceptions
-    if (containsObject(storyData.choicePath, ['121', '123', '21', '22', '322', '323', '332', '43', '44'])) {
+    if (containsObject(storyData.choicePath, ['123', '21', '22', '322', '323', '332', '43', '44'])) {
 
         // call function to load new story data
         loadNewInfo();
@@ -960,9 +1000,6 @@ function choiceSelector() {
 
     // call function to update page buttons
     changePage(0);
-
-    // run function to display text
-    displayText();
 }
 
 
@@ -981,22 +1018,7 @@ function moveChoiceButtons() {
     // change choice path to 11
     storyData.choicePath = '11';
 
-    // add button to continue story
-    document.getElementById('continue-story-button').style.display = 'initial';
-}
-
-
-
-// function to continue story when a button is pressed
-function continueStory() {
-
-    // clear text
-    document.getElementById('story-text').innerText = '';
-
-    // remove button to continue story
-    document.getElementById('continue-story-button').style.display = 'none';
-
-    // run choice selector to continue the story
+    // run choice selector to continue story
     choiceSelector();
 }
 
@@ -1074,14 +1096,22 @@ function displayText() {
     // make placeholder variables for choice buttons
     let choiceButtons = document.getElementsByClassName('choice-button');
 
-
     // check if choice buttons should be displayed, and if they aren't displayed yet
     if (storyData.displayChoiceButtons) {
 
         // display choice buttons only if they have text
-        for (let i = 0; i < choiceButtons.length; i++) {
-            if (choiceButtons[i].innerText != '') {
-                choiceButtons[i].style.display = 'initial';
+        for (let button of choiceButtons) {
+
+            // check if the button has text to display
+            if (button.innerText != '') {
+
+                // make button visible
+                button.style.display = 'initial';
+
+            } else {
+
+                // make sure button is hidden
+                button.style.display = 'none';
             }
         }
 
@@ -1089,8 +1119,8 @@ function displayText() {
     } else if (!storyData.displayChoiceButtons) {
 
         // hide choice buttons
-        for (let i = 0; i < choiceButtons.length; i++) {
-            choiceButtons[i].style.display = 'none';
+        for (let button of choiceButtons) {
+            button.style.display = 'none';
         }
     }
 

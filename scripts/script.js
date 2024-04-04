@@ -98,6 +98,8 @@ const storyData = {
             'e'
         ],
         sectionType: TypeOptions.Normal,
+        win: 'yes',
+        lose: 'no'
     },
 
     '1': {
@@ -248,15 +250,15 @@ const storyData = {
 
         ],
         questions: [
-            '1. if you pick 4 points at random \non the surface of a sphere,\nand draw lines connecting them all\ntogether, making a 3D shape,\nwhat is the probability that the\ncenter of the circle will\nbe within the shape?',
-            '2. solve: 2 x^2y^11 + 3xy^1 - 15y = 0,\ny(1) = 0 y^1 (1) = 1',
-            '3. What property of the universe is\nresponsible for making things near\nblack holes experience time slower?',
+            '1.\nif you pick 4 points at random \non the surface of a sphere,\nand draw lines connecting them all\ntogether, making a 3D shape,\nwhat is the probability that the\ncenter of the circle will\nbe within the shape?',
+            '2.\nsolve: 2 x^2y^11 + 3xy^1 - 15y = 0,\ny(1) = 0 y^1 (1) = 1',
+            '3.\nWhat property of the universe is\nresponsible for making things near\nblack holes experience time slower?',
             '', ''
         ],
         solutions: [
-            '1/8\n',
-            'y(x) = 0.2x^2.5 - 0.2x^-3\n',
-            'mass warping space time\n',
+            '1/8',
+            'y(x) = 0.2x^2.5 - 0.2x^-3',
+            'mass warping space time',
             'e', 'e'
             // the reason I've put text in the last two solutions is because the text boxes that coorespond to these two can't be typed in, 
             // and so this prevents the user from getting a correct answer evaluation from text box that isn't displayed.
@@ -319,18 +321,18 @@ const storyData = {
 
         ],
         questions: [
-            '1. square the number 392.',
-            '2. solve: a^2 + b^2 = 1\nc^2 + d^2 = 2\n(ac + bd)^2 + (ad - bc)^2 = ?',
-            '3. calculate the minimum number of turns\nneeded to solve every possible scramble\non a standard 3x3x3 rubiks cube.',
-            '4. x = 1, y = 10, solve:\ndy / dx = (10x - 1) / (4 + 3y^2)',
-            '5. k = 33, solve for x, y, z:\nx^3 + y^3 + z^3 = k'
+            '1.\nsquare the number 392.',
+            '2.\nsolve: a^2 + b^2 = 1\nc^2 + d^2 = 2\n(ac + bd)^2 + (ad - bc)^2 = ?',
+            '3.\ncalculate the minimum number of turns\nneeded to solve every possible scramble\non a standard 3x3x3 rubiks cube.',
+            '4.\nx = 1, y = 10, solve:\ndy / dx = (10x - 1) / (4 + 3y^2)',
+            '5.\nk = 33, solve for x, y, z:\nx^3 + y^3 + z^3 = k'
         ],
         solutions: [
-            '153664\n',
-            '2\n',
-            '20\n',
-            '5x^2 - y^3 = 4y + x + A\n',
-            '\nX = -80538738812075974\nY = 80435758145817515\nZ = 12602123297335631\n'
+            '153664',
+            '2',
+            '20',
+            '5x^2 - y^3 = 4y + x + A',
+            'X = -80538738812075974\nY = 80435758145817515\nZ = 12602123297335631'
         ],
         sectionType: TypeOptions.Quiz,
         win: 'you cheated.\nYOU LOSE',
@@ -352,9 +354,9 @@ const storyData = {
     '241': {
         text: ['you choose to take the teachers quiz.'],
         questions: [
-            '1. if you pick 4 points at random \non the surface of a sphere,\nand draw lines connecting them all\ntogether, making a 3D shape,\nwhat is the probability that the\ncenter of the circle will\nbe within the shape?',
-            '2. solve: 2 x^2y^11 + 3xy^1 - 15y = 0,\ny(1) = 0 y^1 (1) = 1',
-            '3. What property of the universe is\nresponsible for making things near\nblack holes experience time slower?',
+            '1.\nif you pick 4 points at random \non the surface of a sphere,\nand draw lines connecting them all\ntogether, making a 3D shape,\nwhat is the probability that the\ncenter of the circle will\nbe within the shape?',
+            '2.\nsolve: 2 x^2y^11 + 3xy^1 - 15y = 0,\ny(1) = 0 y^1 (1) = 1',
+            '3.\nWhat property of the universe is\nresponsible for making things near\nblack holes experience time slower?',
             '', ''
 
 
@@ -367,9 +369,9 @@ const storyData = {
 
         ],
         solutions: [
-            '1/8\n',
-            'y(x) = 0.2x^2.5 - 0.2x^-3\n',
-            'mass warping space time\n',
+            '1/8',
+            'y(x) = 0.2x^2.5 - 0.2x^-3',
+            'mass warping space time',
             'e', 'e'
         ],
         sectionType: TypeOptions.Quiz,
@@ -404,15 +406,15 @@ const storyData = {
     
     ],
         questions: [
-            '1. solve:\n6 / 2(1 + 2)',
-            '2. 1 + 4 = 5\n2 + 5 = 12\n3 + 6 = 21\n8 + 11 = ?',
-            '3. solve for x:\n3x = (5 + (4^2 + 6^2)) - 5(5! -3)',
+            '1.\nsolve: 6 / 2(1 + 2)',
+            '2.\n1 + 4 = 5\n2 + 5 = 12\n3 + 6 = 21\n8 + 11 = ?',
+            '3.\nsolve for x: 3x = (5 + (4^2 + 6^2)) - 5(5! -3)',
             '', ''
         ],
         solutions: [
-            '9\n',
-            '96\n',
-            '-176\n',
+            '9',
+            '96',
+            '-176',
             'e', 'e'
         ],
         sectionType: TypeOptions.Quiz,
@@ -436,11 +438,11 @@ const storyData = {
     '321': {
         text: ['teacher: the rules are simple.\nwe are both given the same question,\nmand the first to answer it correctly\ngets a point. first to 3 points wins.\ncalculators allowed.'],
         questions: [
-            '1. find the square root of x:\n3x = 6(5! - 3) - ((3^3)6 - (5! - 6^2) - (6^2))',
-            '2. square the number 392.',
-            '3. simplify:\n(x + 5y)^2',
-            '4. factor:\n3x^2 - 8x - 3',
-            '5. factor fully:\n4(x^2 + 10x + 25) - 4x^2 - 24x - 36'
+            '1.\nfind the square root of x:\n3x = 6(5! - 3) - ((3^3)6 - (5! - 6^2) - (6^2))',
+            '2.\nsquare the number 392.',
+            '3.\nsimplify:\n(x + 5y)^2',
+            '4.\nfactor:\n3x^2 - 8x - 3',
+            '5.\nfactor fully:\n4(x^2 + 10x + 25) - 4x^2 - 24x - 36'
 
 
 
@@ -450,10 +452,10 @@ const storyData = {
 
         ],
         solutions: [
-            '14\n',
-            '153664\n',
-            'x^2 + 10xy + 25y^2\n',
-            '(x - 3) (3x + 1)\n',
+            '14',
+            '153664',
+            'x^2 + 10xy + 25y^2',
+            '(x - 3) (3x + 1)',
             '16(x + 4)'
         ],
         sectionType: TypeOptions.Quiz,
@@ -530,17 +532,17 @@ const storyData = {
 
         ],
         questions: [
-            '1. find the square root of x:\n3x = 6(5! - 3) - ((3^3)6 - (5! - 6^2) - (6^2))',
-            '2. square the number 392.',
-            '3. simplify:\n(x + 5y)^2',
-            '4. factor:\n3x^2 - 8x - 3',
-            '5. factor fully:\n4(x^2 + 10x + 25) - 4x^2 - 24x - 36'
+            '1.\nfind the square root of x:\n3x = 6(5! - 3) - ((3^3)6 - (5! - 6^2) - (6^2))',
+            '2.\nsquare the number 392.',
+            '3.\nsimplify:\n(x + 5y)^2',
+            '4.\nfactor:\n3x^2 - 8x - 3',
+            '5.\nfactor fully:\n4(x^2 + 10x + 25) - 4x^2 - 24x - 36'
         ],
         solutions: [
-            '14\n',
-            '153664\n',
-            'x^2 + 10xy + 25y^2\n',
-            '(x - 3) (3x + 1)\n',
+            '14',
+            '153664',
+            'x^2 + 10xy + 25y^2',
+            '(x - 3) (3x + 1)',
             '16(x + 4)'
         ],
         sectionType: TypeOptions.Quiz,
@@ -572,14 +574,6 @@ const storyData = {
 // function that is called when the user clicks the button to begin the story
 function beginStory() {
 
-    // load background image
-    document.body.style.backgroundImage = "url('assets/school desk.jpg')";
-    document.body.style.backgroundSize = 'cover';
-
-    let pageWidth = window.innerWidth;
-
-    console.log('page width: ' + pageWidth);
-    
     // hide start button
     document.getElementById('start-button').style.display = 'none';
 
@@ -592,8 +586,6 @@ function beginStory() {
 
     // run function to display text
     displayText();
-
-    quizChallenge();
 }
 
 
@@ -653,6 +645,12 @@ function challengeSelector() {
 // function to display the quiz challenge
 function quizChallenge() {
 
+    // hide choice buttons
+    let choiceButtons = document.getElementsByClassName('choice-button');
+    for (let button of choiceButtons) {
+        button.style.display = 'none';
+    }
+
     // load background image
     document.body.style.backgroundImage = "url('assets/school desk.jpg')";
     document.body.style.backgroundSize = 'cover';
@@ -689,6 +687,18 @@ function quizChallenge() {
     // display quiz questions and answer boxes
     document.getElementById('quiz-template').style.display = 'initial';
 
+    // load date
+    let currentDate = '';
+
+    let fullDate = Date().split('');
+
+    for (let i = 0; i < 16; i++) {
+        currentDate += fullDate[i];
+    }
+
+
+    document.getElementById('date-text').innerText = 'Date: ' + currentDate;
+
     // only display a question if there is text to load into it
     // do this using math instead of if statements to make the code cleaner, because who wants five (almost)identical if statements in a row
     // since every quiz challenge section has at least 3 questions, their cooresponding elements will not be included in this, and will always be displayed.
@@ -699,7 +709,7 @@ function quizChallenge() {
 
 
     // load submit button
-    document.getElementById('submit-answers-button').style.display = 'initial';
+    document.getElementById('submit-answers-button').style.display = 'block';
 
     // submit button will:
 
@@ -732,6 +742,8 @@ function submitAnswers() {
     // have separate variable store the raw input data
     let inputValues = [];
 
+    // create variable to store the number of correct answers 
+    let correctAnswers = 0;
 
     // get all question boxes
     let questionInputs = document.getElementsByClassName('question-input');
@@ -755,8 +767,13 @@ function submitAnswers() {
         // replace input value with comparison output of the input and the correct solution
         inputs[i] = +(inputs[i] == storyData.currentData.solutions[i]);
 
-        console.log('value: ' + inputs[i]);
+        // incrament correct answer count every time a correct answer is found
+        if (inputs[i] === 1) {
+            correctAnswers++;
+        }
     }
+
+    console.log('correct answers: ' + correctAnswers);
 
     // load question output text
     let questionInputValues = document.getElementsByClassName('question-inputted-answer');
@@ -769,7 +786,7 @@ function submitAnswers() {
 
         // prevent text showing as 'undefined'
         if (inputValues[i] == '') {
-            questionInputValues[i] = 'answer not given';
+            questionInputValues[i].innerText = 'answer not given';
         }
     }
 
@@ -778,18 +795,23 @@ function submitAnswers() {
 
     // load solution text in case the user inputted a wrong answer
     let solutionOutputs = document.getElementsByClassName('question-solution-text');
+    let temp = [];
     for (let i = 0; i < solutionOutputs.length; i++) {
         
         // change text to solution text
         solutionOutputs[i].innerText = 'solution: ' + storyData.currentData.solutions[i];
+        temp.push(solutionOutputs[i].innerText);
     }
+
+    console.log(temp);
+    console.log(solutionOutputs[0].innerText);
 
     // loop over every answer output
     for (let i = 0; i < answerOutputs.length; i++) {
 
         // set answer output values
         if (inputs[i]) {
-            
+
             // update text and text color
             answerOutputs[i].innerText = 'Correct!';
             answerOutputs[i].style.color = 'greenyellow';
@@ -801,30 +823,77 @@ function submitAnswers() {
             answerOutputs[i].style.color = 'red';
 
             // display correct solution
-            // solutionOutputs[i].style.display = 'initial';
+            solutionOutputs[i].style.display = 'initial';
         }
-
-
-
-
-
     }
-
 
     // display question output text
     // use the same math as in the 'quizChallenge' to only display elements if there is data to be displayed
     document.getElementById('question-1-output').style.display = 'initial';
     document.getElementById('question-2-output').style.display = 'initial';
-    document.getElementById('question-3-output').style.display = 'initlal';
+    document.getElementById('question-3-output').style.display = 'initial';
     document.getElementById('question-4-output').style.display = 'initial'.repeat(+(storyData.currentData.solutions[3] != '')) + 'none'.repeat(+(storyData.currentData.solutions[3] == ''));
     document.getElementById('question-5-output').style.display = 'initial'.repeat(+(storyData.currentData.solutions[4] != '')) + 'none'.repeat(+(storyData.currentData.solutions[4] == ''));
 
+    // hide submit button
+    document.getElementById('submit-answers-button').style.display = 'none';
+    
+    // display 'continue' button
+    document.getElementById('quiz-continue-story').style.display = 'block';
+
+    // update text depending on how well the user did on the quiz
+    if (correctAnswers >= 3) {
+        storyData.allPages.push(storyData.currentData.win);
+    } else {
+        storyData.allPages.push(storyData.currentData.lose);
+        storyData.choicePath = '11';
+    }
+
+}
 
 
 
+// function to continue the story once the quiz challenge has finished
+function quizContinueStory() {
 
+    // reset all question challenge styles and variables back to their defaults
+    document.getElementById('quiz-template').style.display = 'none';
+    document.getElementById('question-1-output').style.display = 'none';
+    document.getElementById('question-2-output').style.display = 'none';
+    document.getElementById('question-3-output').style.display = 'none';
+    document.getElementById('question-4-output').style.display = 'none';
+    document.getElementById('question-5-output').style.display = 'none';
 
+    let questionSolutions = document.getElementsByClassName('question-solution-text');
+    for (let solution of questionSolutions) {
+        solution.style.display = 'none';
+    }
 
+    // reset background image
+    document.body.style.background = 'none';
+    document.body.style.backgroundColor = 'dimgrey';
+
+    // display the page change buttons
+    document.getElementById('previous-page-button').style.display = 'initial';
+    document.getElementById('next-page-button').style.display = 'initial';
+
+    // check if the user won
+    if (storyData.choicePath != '11') {
+
+        // go to next page
+        changePage(1);
+
+        // hide choice buttons
+        storyData.displayChoiceButtons = false;
+
+        displayText();
+
+    } else {
+
+        // go to the next page
+        changePage(1);
+        choiceSelector();
+    }
 }
 
 

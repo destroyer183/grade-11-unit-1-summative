@@ -151,6 +151,26 @@
         </div>
 
 
+
+        <div id="arm-wrestle-elements" class="hidden-on-load">
+
+            <button type="button" id="begin-arm-wrestle" class="grow" onclick="armWrestleStart();">Begin</button>
+
+            <img src="assets/arm wrestle/equal.png" id="arm-image">
+
+            <div id="health-background">
+                <div id="health-bar"></div>
+            </div>
+
+            <button type="button" id="click-detection" class="hidden-on-load" onclick="armWrestleData.armStrength += 2;"></button>
+
+            <button type="button" id="arm-wrestle-continue" class="hidden-on-load grow" onclick="armWrestleContinue();">Continue</button>
+
+
+            
+        </div>
+
+
         <script src="scripts/script.js"></script>
     </body>
 </html>

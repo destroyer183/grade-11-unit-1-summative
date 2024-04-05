@@ -18,19 +18,24 @@ function containsObject(object, array) {
     return false;
 }
 
+// constants for the base window size
+const BASE_WIDTH = window.innerWidth;
+const BASE_HEIGHT = window.innerHeight;
+
 
 
 // enumeration for the different background images for the arm wrestle challenge
 const ArmImages = {
-    Lose: 'url("assets/arm lose.jpg")',
-    Losing: 'url("assets/arm losing.jpg")',
-    Equal: 'url("assets/arm equal.jpg")',
-    Winning: 'url(assets/arm winning.jpg")',
-    Win: 'url("assets/arm win")'
+    Lose: 'assets/arm wrestle/lose.png',
+    Losing: 'assets/arm wrestle/losing.png',
+    Equal: 'assets/arm wrestle/equal.png',
+    Winning: 'assets/arm wrestle/winning.png',
+    Win: 'assets/arm wrestle/win.png'
+
 };
 
 // object to act as a dictionary to allow variables for the arm wresling challenge to be used globally
-const ArmWrestleData = {
+const armWrestleData = {
 
     // dictionary item to store the game loop delay (ms)
     loopSpeed: 10,
@@ -39,13 +44,28 @@ const ArmWrestleData = {
     armStrength: 50,
 
     // dictionary item to store the current hp drain rate interval (amount of loops before hp is drained by 1)
-    drainRate: 20,
+    drainRate: 10,
+
+    // dictionary item to store the interval (loop amount) at which the drain strength should be increased by 0.1
+    drainIncreaseInterval: 300,
+
+    // dictionary item to store the amount of arm strength lost every time it is drained
+    drainStrength: 0.5,
 
     // dictionary item to store the amount of game loops that have passed since the last hp drain
     timeSinceLastDrain: 0,
 
-    // variable to store the current background state to display
-    backgroundImage: ArmImages.Equal
+    // dictionary item to store the time since the last drain rate increase (amount of loops passed)
+    timeSinceLastDrainIncrease: 0,
+
+    // dictionary item to store the current arm state to display
+    armImage: ArmImages.Equal,
+
+    // variable to store the background image
+    backgroundImage: 'url("assets/arm wrestle/arm wrestle desk.png")',
+
+    // variable to act as the game loop
+    gameLoop: ''
 };
 
 
@@ -103,7 +123,7 @@ const storyData = {
 
     '': {
         text: [
-            'BEEP BEEP BEEP you hear. It\'s 8am, and the sound of your alarm clock has woken you up on monday for school. You get up, get dressed and cleaned up, and then you eat and get on the bus to go to school.',
+            'BEEP BEEP BEEP you hear. It\'s 8am, and the sound of your alarm clock has woken you up on Monday for school. You get up, get dressed and cleaned up, and then you eat and get on the bus to go to school.',
             'After you get to school and get to math class, you realize that you forgot to do your homework, as you played video games all weekend.',
             'You know that your teacher and parents hate it when homework isn\'t done, and as the teacher is coming around checking homework, you start panicking, as you don\'t know what to do.',
             'This is your first choice, and it will decide how the story continues from this point on. Choose wisely.'
@@ -187,13 +207,14 @@ const storyData = {
 
         ],
         choiceText: ['', '', '', '', ''],
-        sectionType: TypeOptions.ArmWrestle
+        sectionType: TypeOptions.ArmWrestle,
+        win: 'You sucessfully overpower your dad, and gain the most influence and power in your family.\nYOU WIN',
+        lose: 'You get overpowered by your dad, and as a result, you get grounded for two months, and you lose your devices for 4 months.\nYOU LOSE'
     },
 
     '1122': {
         text: [
-            'You choose to accept the punishment. Your dad sneers at you, and says: \"Good choice. You wouldn\'t want to fight me. You are grounded for a month, and your devices will be taken away for 2 months.\"',
-            'YOU LOSE'
+            'You choose to accept the punishment. Your dad sneers at you, and says: \"Good choice. You wouldn\'t want to fight me. You are grounded for a month, and your devices will be taken away for 2 months.\"\nYOU LOSE'
         ],
         choiceText: ['', '', '', '', ''],
         sectionType: TypeOptions.Normal
@@ -603,6 +624,8 @@ function beginStory() {
 
     // run function to display text
     displayText();
+
+    // armWrestleSetup();
 }
 
 
@@ -649,7 +672,7 @@ function challengeSelector() {
 
         // case for arm wrestle challenge
         case TypeOptions.ArmWrestle:
-            ArmWrestleSetup();
+            armWrestleSetup();
 
         // case for reaction test challenge
         case TypeOptions.ReactionTest:
@@ -887,6 +910,9 @@ function quizContinueStory() {
     document.body.style.background = 'none';
     document.body.style.backgroundColor = 'dimgrey';
 
+    // reset page height
+    document.body.style.height = BASE_HEIGHT;
+
     // display the page change buttons
     document.getElementById('page-buttons').style.display = 'flex';
 
@@ -912,35 +938,201 @@ function quizContinueStory() {
 
 
 // function to display the arm wrestling challenge
-function ArmWrestleSetup() {
+function armWrestleSetup() {
 
-    // variable to store the number of remaining lives the user has
-    let lives = 3;
+    // hide page change buttons
+    document.getElementById('page-buttons').style.display = 'none';
+
+    // hide choice buttons
+    let choiceButtons = document.getElementsByClassName('choice-button');
+    for (let button of choiceButtons) {
+        button.style.display = 'none';
+    }
 
     // add background image
-    // add health bar
+    document.body.style.backgroundImage = armWrestleData.backgroundImage;
+    document.body.style.backgroundSize = 'cover';
 
-    // blur screen
+    // display arm wrestle elements
+    document.getElementById('arm-wrestle-elements').style.display = 'block';
+
+    // adjust element container size
+    document.getElementById('arm-wrestle-elements').style.width = BASE_WIDTH.toString() + 'px';
+    document.getElementById('arm-wrestle-elements').style.height = BASE_HEIGHT.toString() + 'px';
+
     // put instruction text on screen
-    // add button to begin game
-
-    // button will start game loop
-
-
-
-
-
-
-    return;
+    document.getElementById('story-text').innerText = 'Click anywhere as fast as you can to overpower your dad.\nThe longer the battle goes on, the stronger he gets.';
 }
 
 
 
-// function for the main loop of the arm wrestling challenge
+// function that the 'begin' button is bound to, in order to remove stuff and set up everything for the game loop
+function armWrestleStart() {
+
+    // remove begin button
+    document.getElementById('begin-arm-wrestle').style.display = 'none';
+
+    // remove instruction text
+    document.getElementById('story-text').style.display = 'none';
+
+    // add invisible button to act as the click detection
+    document.getElementById('click-detection').style.display = 'initial';
+    document.getElementById('click-detection').style.width = BASE_WIDTH.toString() + 'px';
+    document.getElementById('click-detection').style.height = BASE_HEIGHT.toString() + 'px';
+
+    // run game loop
+    armWrestleData.gameLoop = setInterval(armWrestleLoop, armWrestleData.loopSpeed);
+}
+
+
+
+// function to update arm wrestle variables when the user clicks on the screen
+function armWrestleClick() {
+
+    // increase arm strength
+    armWrestleData.armStrength += 2;
+}
+
+
+
+// function for the main arm wrestle challenge loop
 function armWrestleLoop() {
 
+    // incrament arm strength drain counter
+    armWrestleData.timeSinceLastDrain = (armWrestleData.timeSinceLastDrain + 1) % armWrestleData.drainRate;
 
-    return;
+    // check if arm strength needs to be drained
+    if (armWrestleData.timeSinceLastDrain === 0) {
+
+        // drain arm strength
+        armWrestleData.armStrength -= armWrestleData.drainStrength;
+    }
+
+    // incrament drain strength increase counter
+    armWrestleData.timeSinceLastDrainIncrease = (armWrestleData.timeSinceLastDrainIncrease + 1) % armWrestleData.drainIncreaseInterval;
+
+    // check if drain rate interval needs to be decreased
+    if (armWrestleData.timeSinceLastDrainIncrease === 0) {
+
+        // decrease drain rate interval
+        armWrestleData.drainRate--;
+    }
+
+    // update arm strength bar size
+    document.getElementById('health-bar').style.width = (armWrestleData.armStrength * 4).toString() + 'px';
+
+    // check if arm strength is over 100
+    if (armWrestleData.armStrength > 100) {
+
+        // constrain arm strength bar size
+        document.getElementById('health-bar').style.width = '400px';
+    }
+
+    // check if user isn't losing or winning too much
+    if (33 < armWrestleData.armStrength && armWrestleData.armStrength < 66) {
+
+        // use sprite for equal
+        document.getElementById('arm-image').src = ArmImages.Equal;
+        document.getElementById('arm-image').style.bottom = '-212px';
+
+    // check if user is losing
+    } else if (0 < armWrestleData.armStrength && armWrestleData.armStrength <= 33) {
+
+        // use sprite for losing
+        document.getElementById('arm-image').src = ArmImages.Losing;
+        document.getElementById('arm-image').style.bottom = '-144px';
+
+    // check if user is winning
+    } else if (66 <= armWrestleData.armStrength && armWrestleData.armStrength < 100) {
+
+        // use sprite for winning
+        document.getElementById('arm-image').src = ArmImages.Winning;
+        document.getElementById('arm-image').style.bottom = '-212px';
+
+    // check if user has won
+    } else if (armWrestleData.armStrength >= 100) {
+
+        // call function to end challenge
+        armWrestleEnd();
+
+    // check if user has lost
+    } else if (armWrestleData.armStrength <= 0) {
+
+        // call function to end challenge
+        armWrestleEnd();
+    }
+}
+
+
+
+// function to end the arm wrestle challenge
+function armWrestleEnd() {
+
+    // stop game loop
+    clearInterval(armWrestleData.gameLoop);
+
+    // remove invisible button for click detection
+    document.getElementById('click-detection').style.display = 'none';
+
+    // check if user has won
+    if (armWrestleData.armStrength >= 100) {
+
+        // use sprite for win
+        document.getElementById('arm-image').src = ArmImages.Win;
+        document.getElementById('arm-image').style.bottom = '-237px';
+
+        // add win text
+        document.getElementById('story-text').style.display = 'initial';
+        document.getElementById('story-text').innerText = 'YOU WIN';
+
+        // update story text
+        storyData.allPages.push(storyData.currentData.win);
+
+        // display continue button
+        document.getElementById('arm-wrestle-continue').style.display = 'initial';
+
+    // check if user has lost
+    } else if (armWrestleData.armStrength <= 0) {
+
+        // use sprite for lose
+        document.getElementById('arm-image').src = ArmImages.Lose;
+        document.getElementById('arm-image').style.bottom = '-144px';
+
+        // add lose text
+        document.getElementById('story-text').style.display = 'initial';
+        document.getElementById('story-text').innerText = 'YOU LOSE';
+
+        // update story text
+        storyData.allPages.push(storyData.currentData.lose);
+
+        // display continue button
+        document.getElementById('arm-wrestle-continue').style.display = 'initial';
+    }
+}
+
+
+
+// function to continue past the arm wrestle challenge
+function armWrestleContinue() {
+
+    // fix story text styling
+    document.getElementById('story-text').style.display = 'block';
+
+    // reset all variables
+    document.getElementById('arm-wrestle-elements').style.display = 'none';
+
+    // reset background image
+    document.body.style.background = 'none';
+    document.body.style.backgroundColor = 'dimgrey';
+
+    // reset page height
+    document.body.style.height = BASE_HEIGHT;
+
+    // display the page change buttons
+    document.getElementById('page-buttons').style.display = 'flex';
+
+    // continue story
+    changePage(0);
 }
 
 

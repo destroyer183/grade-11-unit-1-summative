@@ -25,7 +25,17 @@ body {
     height: 4rem;
 }
 
+#begin-quiz {
+    background-color: cornflowerblue;
+    border-radius: 0.7rem;
+    border-width: 0;
+    font-size: 3rem;
+    width: 10rem;
+    height: 4rem;
+}
+
 #story-text {
+    position: relative;
     display: block;
     font-size: 3rem;
     width: 80rem;
@@ -176,8 +186,8 @@ body {
 
 #arm-image {
     position: absolute;
-    bottom: -212px;
-    z-index: -1;
+    bottom: -11%;
+    z-index: 0;
     left: 50%;
     transform: translate(-50%, -50%);
     margin: 0 auto;
@@ -206,7 +216,6 @@ body {
     width: 13rem;
     height: 4rem;
 }
-
 
 .hidden-on-load {
     display: none;

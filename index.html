@@ -11,7 +11,7 @@
 
         <h1 id="header" class="in-front">A Day at School</h1>
 
-        <p id="story-text">Click on the left and right sides of the screen to cycle through each panel of text.</p>
+        <p id="story-text" class="in-front">Click on the left and right sides of the screen to cycle through each panel of text.</p>
 
         <button type="button" id="start-button" class="in-front grow" onclick="beginStory();">Start</button>
 
@@ -31,8 +31,7 @@
         <br>
         <button type="button" id="choice-button-5" class="choice-button hidden-on-load in-front grow" onclick="makeChoice('5');"></button>
 
-
-        <!-- have a div that is sized to fit the page on the background, and use absolute positioning to place it on the background paper properly -->
+        <button type="button". id="begin-quiz" class="hidden-on-load in-front grow" onclick="quizChallenge();">Begin</button>
 
         <div id="quiz-template" class="hidden-on-load in-front">
 
@@ -45,7 +44,6 @@
             <span id="date-text">Date: </span>
 
             <pre>
-
 
 
             </pre>
@@ -63,10 +61,6 @@
 
                 <pre>
 
-
-
-
-
                 </pre>
             </div>
 
@@ -81,10 +75,6 @@
                 </div>
 
                 <pre>
-
-
-
-
 
                 </pre>
             </div>
@@ -101,10 +91,6 @@
 
                 <pre>
 
-
-
-
-
                 </pre>
             </div>
 
@@ -120,10 +106,6 @@
 
                 <pre>
 
-
-
-
-
                 </pre>
             </div>
 
@@ -136,14 +118,6 @@
                     <p class="question-answer-output"></p>
                     <span class="question-solution-text hidden-on-load"></span>
                 </div>
-
-                <pre>
-
-
-
-
-
-                </pre>
             </div>
 
             <button type="button" id="submit-answers-button" class="hidden-on-load grow" onclick="submitAnswers();">Submit</button>
@@ -162,7 +136,7 @@
                 <div id="health-bar"></div>
             </div>
 
-            <button type="button" id="click-detection" class="hidden-on-load" onclick="armWrestleData.armStrength += 2;"></button>
+            <button type="button" id="click-detection" class="hidden-on-load" onclick="ArmWrestleData.armStrength += 2;"></button>
 
             <button type="button" id="arm-wrestle-continue" class="hidden-on-load grow" onclick="armWrestleContinue();">Continue</button>
 

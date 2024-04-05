@@ -21,6 +21,7 @@ function containsObject(object, array) {
 // constants for the base window size
 const BASE_WIDTH = window.innerWidth;
 const BASE_HEIGHT = window.innerHeight;
+const BASE_ASPECT_RATIO = BASE_WIDTH / BASE_HEIGHT;
 
 
 
@@ -35,10 +36,10 @@ const ArmImages = {
 };
 
 // object to act as a dictionary to allow variables for the arm wresling challenge to be used globally
-const armWrestleData = {
+const ArmWrestleData = {
 
     // dictionary item to store the game loop delay (ms)
-    loopSpeed: 10,
+    loopInterval: 10,
 
     // dictionary item to store the user's arm strength (hp)
     armStrength: 50,
@@ -65,7 +66,52 @@ const armWrestleData = {
     backgroundImage: 'url("assets/arm wrestle/arm wrestle desk.png")',
 
     // variable to act as the game loop
-    gameLoop: ''
+    gameLoop: null
+};
+
+
+
+// use an object to act as a dictionary to store goobally accesible data for the reaction test challenge
+const ReactionTestData = {
+
+    // dictionary item to act as the game loop
+    gameLoop: null,
+
+    // dictionary item to act as the game loop interval (ms)
+    loopInterval: 20,
+
+    // dictionary item to store all loaded frames, which will work essentially the same as the 'allPages' variable for normal text
+    loadedFrames: [],
+
+    // dictionary item to store arrays of all frames, with each array storing frames for different possible animations
+    allFrames: {
+
+        // dictionary item for each section of section of walking frames
+        walking: [
+            [], // array for first section of walking frames
+            [], // array for second section of walking frames
+            [] // array for third section of walking frames, this won't be used if the user wins
+        ], 
+
+        // dictionary item for each section of falling frames
+        falling: [
+            [], // array for first section of falling frames
+            [], // array for second section of falling frames
+            [] // array for third section of falling frames
+        ],
+    },
+
+    // dictionary item for number of loops that need to pass before the background frame updates
+    frameInterval: 2,
+
+    // dictionary item to act as an array of all possible keys that the user might have to press
+    allChars: 'abcdefghijklmnopqrstuvwxyz'.split(''),
+
+    // dictionary item to act as the current character the user must press in order to keep progressing
+    currentChar: '',
+
+    // dictionary item to act as the remaining time the user has to press the correct key
+    remainingTime: 0
 };
 
 
@@ -79,7 +125,7 @@ const TypeOptions = {
 };
 
 // large object to act as a dictionary to allow variables to be used globally regardless of where they are used, and to store all data for the story
-const storyData = {
+const StoryData = {
 
     // dictionary item to store the current choicepath
     choicePath: '',
@@ -97,7 +143,7 @@ const storyData = {
     allPages: [],
 
     // dictionary item to represent the template for the following dictionaries that represent each section of the story
-    template: {
+    Template: {
 
         // dictionary item to store the text that will be displayed
         text: ['', '', '', '', ''],
@@ -140,8 +186,8 @@ const storyData = {
 
     '1': {
         text: [
-            'Teacher: Your dog didn\'t eat your homework. You: I assure you, he did.',
-            'Teacher: That\'s impossible! The homework was online! Dogs don\'t eat computers! You\'ve made me really angry now. I\'m calling your parents!',
+            'Teacher: \"Your dog didn\'t eat your homework.\"\nYou: \"I assure you, he did.\"',
+            'Teacher: \"That\'s impossible! The homework was online! Dogs don\'t eat computers! You\'ve made me really angry now. I\'m calling your parents!\"',
             'After realizing your mistake, you start thinking about what you will do. do you:'
         ],
         choiceText: [
@@ -176,9 +222,9 @@ const storyData = {
 
     '112': {
         text: [
-            'Parents: We\'re so dissapointed in you. Now that we\'ve had time to think about what we will do, we will be grounding you for a month and taking away your computer for 2.',
-            'Horrified at the thought of this, you decide that you will fight your parents for your freedom. You: I won\'t let you do that! Not without a fight!',
-            'Dad: Even if you want to fight, I\'m not actually going to fight. Let\'s settle this with an arm wresle.'
+            'Parents: \"We\'re so dissapointed in you. Now that we\'ve had time to think about what we will do, we will be grounding you for a month and taking away your computer for 2.\"',
+            'Horrified at the thought of this, you decide that you will fight your parents for your freedom. You: \"I won\'t let you do that! Not without a fight!\"',
+            'Dad: \"Even if you want to fight, I\'m not actually going to fight. Let\'s settle this with an arm wresle.\"'
         ],
         choiceText: [
             'Fight',
@@ -189,23 +235,7 @@ const storyData = {
     },
 
     '1121': {
-        text: [
-
-
-
-
-
-
-
-// this will be an arm wresling contest where you have to click really fast
-
-
-
-
-
-
-
-        ],
+        text: ['Click anywhere as fast as you can to overpower your dad.\nThe longer the battle goes on, the stronger he gets.'],
         choiceText: ['', '', '', '', ''],
         sectionType: TypeOptions.ArmWrestle,
         win: 'You sucessfully overpower your dad, and gain the most influence and power in your family.\nYOU WIN',
@@ -213,9 +243,7 @@ const storyData = {
     },
 
     '1122': {
-        text: [
-            'You choose to accept the punishment. Your dad sneers at you, and says: \"Good choice. You wouldn\'t want to fight me. You are grounded for a month, and your devices will be taken away for 2 months.\"\nYOU LOSE'
-        ],
+        text: ['You choose to accept the punishment. Your dad sneers at you, and says: \"Good choice. You wouldn\'t want to fight me. You are grounded for a month, and your devices will be taken away for 2 months.\"\nYOU LOSE'],
         choiceText: ['', '', '', '', ''],
         sectionType: TypeOptions.Normal
     },
@@ -232,8 +260,8 @@ const storyData = {
 
     '12': {
         text: [
-            'You: Get ready, because I\'m about to fight you.',
-            'Teacher: Well this is my class, so you\'re fighting by my rules! Math battle!'
+            'You: \"Get ready, because I\'m about to fight you.\"',
+            'Teacher: \"Well this is my class, so you\'re fighting by my rules! Math battle!\"'
         ],
         choiceText: [
             'Accept fight',
@@ -247,12 +275,23 @@ const storyData = {
     '121': {
         text: [
             'You choose to accept the fight. But what the teacher doesn\'t know is that you were lying about accepting it on his terms.',
-            
+            'You approach the teacher with your fists raised, ready to fight. Thinking you are bluffing, he ignores you, until you throw a punch, which he narrowly dodges.',
+            'As your teacher runs down the hall to get away, you notice three of those solid metal water bottles, which you could throw at the teacher to prevent him from getting away.'
+        ],
+        choiceText: [
+            'Throw bottles',
+            'Let teacher escape',
+            '', '', ''
+        ],
+        sectionType: TypeOptions.Normal
+    },
 
-            
+    '1211': {
+        text: [
+            'While your teacher is trying to run away, a random letter and a shrinking bar will appear on the screen. Type the letter with your keyboard before the bar disappears to throw and hit your teacher with a bottle.'
 
 
-
+            // this will be the reaction test with the teacher
 
             // if the user wins, then the teacher is found dead somewhere, and the student never gets caught
             // if the teacher gets away, parents find out, and go to angry parent path
@@ -260,9 +299,12 @@ const storyData = {
 
 
 
-        
+
         ],
-        sectionType: TypeOptions.ReactionTest
+        choiceText: ['', '', '', '', ''],
+        sectionType: TypeOptions.ReactionTest,
+        win: 'With your superior throwing skills, you sucessfully defeat your teacher, but with many loud bangs and an unconscious teacher on the ground, a few other teachers have looked outside, and caught you in the act.',
+        lose: 'Your teacher escapes your wrath, and when he gets to the office, he calls your parents.'
     },
 
     '123': {
@@ -274,17 +316,8 @@ const storyData = {
 
     '13': {
         text: [
-            'I can prove that I did my homework, and that my dog actually ate my computer, even though I don\'t have my computer.',
-            'Teacher: And how will you do that? You: By answering some questions from the homework. Teacher: Haha. Good luck.'
-
-
-
-
-
-
-
-
-
+            'You: \"I can prove that I did my homework, and that my dog actually ate my computer, even though I don\'t have my computer.\"\nTeacher: \"And how will you do that?\"',
+            'You: \"By answering some questions from the homework.\"\nTeacher: \"Haha. Good luck.\"'
         ],
         questions: [
             '1.\nIf you pick 4 points at random \non the surface of a sphere,\nand draw lines connecting them all\ntogether, making a 3D shape,\nwhat is the probability that the\ncenter of the circle will\nbe within the shape?',
@@ -347,14 +380,6 @@ const storyData = {
             'You: Get ready, because I\'m about to fight you. Teacher: Well this is my class, so you\'re fighting by my rules! Math battle!',
             'Being the idiot you are, you blindly accept the fight, thinking you will be fine. The teacher hands you a pencil and paper, and hands you the quiz paper.',
             'Teacher: The rules are simple. You just have to get at least 3 correct answers, and you win.'
-
-
-
-
-
-
-
-
         ],
         questions: [
             '1.\nSquare the number 392.',
@@ -368,7 +393,7 @@ const storyData = {
             '2',
             '20',
             '5x^2 - y^3 = 4y + x + A',
-            'X = -80538738812075974\nY = 80435758145817515\nZ = 12602123297335631'
+            '\nX = -80538738812075974\nY = 80435758145817515\nZ = 12602123297335631'
         ],
         sectionType: TypeOptions.Quiz,
         win: 'You cheated.\nYOU LOSE',
@@ -395,15 +420,6 @@ const storyData = {
             '2.\nSolve: 2 x^2y^11 + 3xy^1 - 15y = 0,\ny(1) = 0 y^1 (1) = 1',
             '3.\nWhat property of the universe is\nresponsible for making things near\nblack holes experience time slower?',
             '', ''
-
-
-
-
-
-
-
-
-
         ],
         solutions: [
             '1/8',
@@ -431,17 +447,7 @@ const storyData = {
     },
     
     '31': {
-        text: ['You choose to attempt the quiz.'
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    ],
+        text: ['You choose to attempt the quiz.'],
         questions: [
             '1.\nSolve: 6 / 2(1 + 2)',
             '2.\n1 + 4 = 5\n2 + 5 = 12\n3 + 6 = 21\n8 + 11 = ?',
@@ -480,13 +486,6 @@ const storyData = {
             '3.\nSimplify:\n(x + 5y)^2',
             '4.\nFactor:\n3x^2 - 8x - 3',
             '5.\nFactor fully:\n4(x^2 + 10x + 25) - 4x^2 - 24x - 36'
-
-
-
-
-
-
-
         ],
         solutions: [
             '14',
@@ -502,13 +501,6 @@ const storyData = {
 
     '322': {
         text: ['Well then I\'m going to phone your parents and tell them about this.']
-    },
-
-    '323': {
-        text: [
-            'You choose to beat up the teacher with your fists. Since he is in his fifties and you are a teen, you easily overpower him and beat him. ',
-            'However, the school board ends up finding out, and you get expelled.'
-        ]
     },
 
     '33': {
@@ -591,11 +583,6 @@ const storyData = {
         text: ['You run away. After realizing you can\'t just sleep on the road, you go back home to angry parents.']
     },
 
-    '44': {
-        text: [
-            'You choose to beat up the teacher instead of playing his math game. As a strong teen, you easily beat up your math teacher who is an old man. However, the school board finds out about this and you are expelled.']
-    },
-
     '5': {
         text: [
             'You noclip through the floor into the worst possible backrooms floor, a massive ocean filled with man-eating monsters.',
@@ -625,7 +612,7 @@ function beginStory() {
     // run function to display text
     displayText();
 
-    // armWrestleSetup();
+    armWrestleSetup();
 }
 
 
@@ -634,20 +621,27 @@ function beginStory() {
 function loadNewInfo() {
     
     // update current story data
-    storyData.currentData = storyData[storyData.choicePath];
+    StoryData.currentData = StoryData[StoryData.choicePath];
 
     // update array of all pages
-    storyData.allPages = storyData.allPages.concat(storyData.currentData.text);
+    StoryData.allPages = StoryData.allPages.concat(StoryData.currentData.text);
 
     // update variable so that the choice buttons aren't displayed anymore
-    storyData.displayChoiceButtons = false;
+    StoryData.displayChoiceButtons = false;
+
+    // check if current story section is a quiz challenge
+    if (StoryData.currentData.sectionType == TypeOptions.Quiz) {
+
+        // skip the rest of the code in this function to avoid errors
+        return;
+    }
 
     // try to load new choice options
     try {
 
         let choiceButtons = document.getElementsByClassName('choice-button');
         for (let i = 0; i < choiceButtons.length; i++) {
-            choiceButtons[i].innerText = storyData.currentData.choiceText[i];
+            choiceButtons[i].innerText = StoryData.currentData.choiceText[i];
         }
 
     // handle error if new choice options can't be loaded
@@ -664,19 +658,22 @@ function loadNewInfo() {
 function challengeSelector() {
 
     // determine challenge type and run matching function
-    switch (storyData.currentData.sectionType) {
+    switch (StoryData.currentData.sectionType) {
 
-        // case for quiz challenge
         case TypeOptions.Quiz:
-            quizChallenge();
+            // the reason this case doesn't have anything it is because the actual quiz detection is in the 'changePage();' function
+            // this is because if I don't put this case here, the next case will actually trigger.
+            return;
 
         // case for arm wrestle challenge
         case TypeOptions.ArmWrestle:
             armWrestleSetup();
+            return;
 
         // case for reaction test challenge
         case TypeOptions.ReactionTest:
             reactionTestChallenge();
+            return;
     }
 }
 
@@ -684,6 +681,9 @@ function challengeSelector() {
 
 // function to display the quiz challenge
 function quizChallenge() {
+
+    // hide begin button
+    document.getElementById('begin-quiz').style.display = 'none';
 
     // hide choice buttons
     let choiceButtons = document.getElementsByClassName('choice-button');
@@ -720,7 +720,7 @@ function quizChallenge() {
     // load quiz question text into elements
     let questions = document.getElementsByClassName('question-text');
     for (let i = 0; i < questions.length; i++) {
-        questions[i].innerText = storyData.currentData.questions[i];
+        questions[i].innerText = StoryData.currentData.questions[i];
     }
 
     // display quiz questions and answer boxes
@@ -741,8 +741,8 @@ function quizChallenge() {
     // only display a question if there is text to load into it
     // do this using math instead of if statements to make the code cleaner, because who wants five (almost)identical if statements in a row
     // since every quiz challenge section has at least 3 questions, their cooresponding elements will not be included in this, and will always be displayed.
-    document.getElementById('question-4').style.display = 'initial'.repeat(+(storyData.currentData.questions[3] != '')) + 'none'.repeat(+(storyData.currentData.questions[3] === ''));
-    document.getElementById('question-5').style.display = 'initial'.repeat(+(storyData.currentData.questions[4] != '')) + 'none'.repeat(+(storyData.currentData.questions[4] === ''));
+    document.getElementById('question-4').style.display = 'initial'.repeat(+(StoryData.currentData.questions[3] != '')) + 'none'.repeat(+(StoryData.currentData.questions[3] === ''));
+    document.getElementById('question-5').style.display = 'initial'.repeat(+(StoryData.currentData.questions[4] != '')) + 'none'.repeat(+(StoryData.currentData.questions[4] === ''));
 
 
 
@@ -804,7 +804,7 @@ function submitAnswers() {
     for (let i = 0; i < inputs.length; i++) {
 
         // replace input value with comparison output of the input and the correct solution
-        inputs[i] = +(inputs[i] == storyData.currentData.solutions[i]);
+        inputs[i] = +(inputs[i] == StoryData.currentData.solutions[i]);
 
         // incrament correct answer count every time a correct answer is found
         if (inputs[i] === 1) {
@@ -836,7 +836,7 @@ function submitAnswers() {
     for (let i = 0; i < solutionOutputs.length; i++) {
         
         // change text to solution text
-        solutionOutputs[i].innerText = 'solution: ' + storyData.currentData.solutions[i];
+        solutionOutputs[i].innerText = 'solution: ' + StoryData.currentData.solutions[i];
         temp.push(solutionOutputs[i].innerText);
     }
 
@@ -851,7 +851,7 @@ function submitAnswers() {
 
             // update text and text color
             answerOutputs[i].innerText = 'Correct!';
-            answerOutputs[i].style.color = 'greenyellow';
+            answerOutputs[i].style.color = 'green';
 
         } else {
 
@@ -869,8 +869,8 @@ function submitAnswers() {
     document.getElementById('question-1-output').style.display = 'initial';
     document.getElementById('question-2-output').style.display = 'initial';
     document.getElementById('question-3-output').style.display = 'initial';
-    document.getElementById('question-4-output').style.display = 'initial'.repeat(+(storyData.currentData.solutions[3] != '')) + 'none'.repeat(+(storyData.currentData.solutions[3] == ''));
-    document.getElementById('question-5-output').style.display = 'initial'.repeat(+(storyData.currentData.solutions[4] != '')) + 'none'.repeat(+(storyData.currentData.solutions[4] == ''));
+    document.getElementById('question-4-output').style.display = 'initial'.repeat(+(StoryData.currentData.solutions[3] != '')) + 'none'.repeat(+(StoryData.currentData.solutions[3] == ''));
+    document.getElementById('question-5-output').style.display = 'initial'.repeat(+(StoryData.currentData.solutions[4] != '')) + 'none'.repeat(+(StoryData.currentData.solutions[4] == ''));
 
     // hide submit button
     document.getElementById('submit-answers-button').style.display = 'none';
@@ -880,12 +880,11 @@ function submitAnswers() {
 
     // update text depending on how well the user did on the quiz
     if (correctAnswers >= 3) {
-        storyData.allPages.push(storyData.currentData.win);
+        StoryData.allPages.push(StoryData.currentData.win);
     } else {
-        storyData.allPages.push(storyData.currentData.lose);
-        storyData.choicePath = '11';
+        StoryData.allPages.push(StoryData.currentData.lose);
+        StoryData.choicePath = '11';
     }
-
 }
 
 
@@ -911,27 +910,34 @@ function quizContinueStory() {
     document.body.style.backgroundColor = 'dimgrey';
 
     // reset page height
-    document.body.style.height = BASE_HEIGHT;
+    document.body.style.height = BASE_HEIGHT.toString() + 'px';
 
     // display the page change buttons
     document.getElementById('page-buttons').style.display = 'flex';
 
     // check if the user won
-    if (storyData.choicePath != '11') {
+    if (StoryData.choicePath != '11') {
+
+        // hide choice buttons
+        StoryData.displayChoiceButtons = false;
+
+        // change story data to prevent the section from being detected as a challenge after it ends
+        StoryData.currentData.sectionType = TypeOptions.Normal;
 
         // go to next page
         changePage(1);
 
-        // hide choice buttons
-        storyData.displayChoiceButtons = false;
-
+        // display text
         displayText();
 
     } else {
 
+        // change story data to prevent the section from being detected as a challenge after it ends
+        StoryData.currentData.sectionType = TypeOptions.Normal;
+
         // go to the next page
-        changePage(1);
         choiceSelector();
+        changePage(1);
     }
 }
 
@@ -949,9 +955,57 @@ function armWrestleSetup() {
         button.style.display = 'none';
     }
 
-    // add background image
-    document.body.style.backgroundImage = armWrestleData.backgroundImage;
-    document.body.style.backgroundSize = 'cover';
+    // set background image
+    document.getElementById('arm-wrestle-elements').style.backgroundImage = ArmWrestleData.backgroundImage;
+    document.getElementById('arm-wrestle-elements').style.backgroundSize = 'cover';
+    document.getElementById('arm-wrestle-elements').style.backgroundPosition = 'center bottom';
+
+    // determine aspect ratio of background image
+    let imageAspectRatio = 1500 / 900;
+    let newImageWidth = 0;
+    let newImageHeight = 0;
+
+    // adjust image size to fit page correctly
+    // window has larger aspect ratio -> window is longer than image -> adjust width of image first
+    if (BASE_ASPECT_RATIO >= imageAspectRatio) {
+
+        // set background image size
+        newImageWidth = BASE_WIDTH;
+        newImageHeight = 900 * (BASE_WIDTH / 1500);
+
+    // window has smaller aspect ratio -> window is taller than image -> adjust height of image first
+    } else {
+
+        // set background image size
+        newImageHeight = BASE_HEIGHT;
+        newImageWidth = 1500 * (BASE_HEIGHT / 900);
+    }
+
+    // update background image size
+    // document.body.style.backgroundSize = (newImageWidth.toString() + 'px ' + newImageHeight.toString() + 'px');
+    // document.body.style.backgroundSize = 'cover';
+
+
+    // setting the position of the arm image
+    // the image offset distance is 131px
+    let imageOffset = -131;
+    // base height of background image is 900 pixels
+    let baseImageHeight = 900;
+    // divide height of background image by base height of image to get scale ratio
+    let scaleRatio = newImageHeight / baseImageHeight;
+    // get the new image height
+    newImageHeight;
+    // multiply the offset distance by the scale ratio
+    console.log(imageOffset);
+    console.log('scale ratio: ' + scaleRatio);
+    imageOffset /= scaleRatio;
+    console.log(imageOffset);
+
+    // since the background image might clip through the bottom of the screen, adjust accordingly
+    // determine how far the background image is clipping through the bottom of the screen
+    // adjust image offset by subtracting the clipping distance from it
+    // set position of arm image
+    document.getElementById('arm-image').style.bottom = imageOffset.toString() + 'px';
 
     // display arm wrestle elements
     document.getElementById('arm-wrestle-elements').style.display = 'block';
@@ -961,7 +1015,7 @@ function armWrestleSetup() {
     document.getElementById('arm-wrestle-elements').style.height = BASE_HEIGHT.toString() + 'px';
 
     // put instruction text on screen
-    document.getElementById('story-text').innerText = 'Click anywhere as fast as you can to overpower your dad.\nThe longer the battle goes on, the stronger he gets.';
+    document.getElementById('story-text').innerText = StoryData.currentData.text[0];
 }
 
 
@@ -981,7 +1035,7 @@ function armWrestleStart() {
     document.getElementById('click-detection').style.height = BASE_HEIGHT.toString() + 'px';
 
     // run game loop
-    armWrestleData.gameLoop = setInterval(armWrestleLoop, armWrestleData.loopSpeed);
+    ArmWrestleData.gameLoop = setInterval(armWrestleLoop, ArmWrestleData.loopInterval);
 }
 
 
@@ -990,7 +1044,7 @@ function armWrestleStart() {
 function armWrestleClick() {
 
     // increase arm strength
-    armWrestleData.armStrength += 2;
+    ArmWrestleData.armStrength += 2;
 }
 
 
@@ -999,64 +1053,61 @@ function armWrestleClick() {
 function armWrestleLoop() {
 
     // incrament arm strength drain counter
-    armWrestleData.timeSinceLastDrain = (armWrestleData.timeSinceLastDrain + 1) % armWrestleData.drainRate;
+    ArmWrestleData.timeSinceLastDrain = (ArmWrestleData.timeSinceLastDrain + 1) % ArmWrestleData.drainRate;
 
     // check if arm strength needs to be drained
-    if (armWrestleData.timeSinceLastDrain === 0) {
+    if (ArmWrestleData.timeSinceLastDrain === 0) {
 
         // drain arm strength
-        armWrestleData.armStrength -= armWrestleData.drainStrength;
+        ArmWrestleData.armStrength -= ArmWrestleData.drainStrength;
     }
 
     // incrament drain strength increase counter
-    armWrestleData.timeSinceLastDrainIncrease = (armWrestleData.timeSinceLastDrainIncrease + 1) % armWrestleData.drainIncreaseInterval;
+    ArmWrestleData.timeSinceLastDrainIncrease = (ArmWrestleData.timeSinceLastDrainIncrease + 1) % ArmWrestleData.drainIncreaseInterval;
 
     // check if drain rate interval needs to be decreased
-    if (armWrestleData.timeSinceLastDrainIncrease === 0) {
+    if (ArmWrestleData.timeSinceLastDrainIncrease === 0) {
 
         // decrease drain rate interval
-        armWrestleData.drainRate--;
+        ArmWrestleData.drainRate--;
     }
 
     // update arm strength bar size
-    document.getElementById('health-bar').style.width = (armWrestleData.armStrength * 4).toString() + 'px';
+    document.getElementById('health-bar').style.width = (ArmWrestleData.armStrength * 4).toString() + 'px';
 
     // check if arm strength is over 100
-    if (armWrestleData.armStrength > 100) {
+    if (ArmWrestleData.armStrength > 100) {
 
         // constrain arm strength bar size
         document.getElementById('health-bar').style.width = '400px';
     }
 
     // check if user isn't losing or winning too much
-    if (33 < armWrestleData.armStrength && armWrestleData.armStrength < 66) {
+    if (33 < ArmWrestleData.armStrength && ArmWrestleData.armStrength < 66) {
 
         // use sprite for equal
         document.getElementById('arm-image').src = ArmImages.Equal;
-        document.getElementById('arm-image').style.bottom = '-212px';
 
     // check if user is losing
-    } else if (0 < armWrestleData.armStrength && armWrestleData.armStrength <= 33) {
+    } else if (0 < ArmWrestleData.armStrength && ArmWrestleData.armStrength <= 33) {
 
         // use sprite for losing
         document.getElementById('arm-image').src = ArmImages.Losing;
-        document.getElementById('arm-image').style.bottom = '-144px';
 
     // check if user is winning
-    } else if (66 <= armWrestleData.armStrength && armWrestleData.armStrength < 100) {
+    } else if (66 <= ArmWrestleData.armStrength && ArmWrestleData.armStrength < 100) {
 
         // use sprite for winning
         document.getElementById('arm-image').src = ArmImages.Winning;
-        document.getElementById('arm-image').style.bottom = '-212px';
 
     // check if user has won
-    } else if (armWrestleData.armStrength >= 100) {
+    } else if (ArmWrestleData.armStrength >= 100) {
 
         // call function to end challenge
         armWrestleEnd();
 
     // check if user has lost
-    } else if (armWrestleData.armStrength <= 0) {
+    } else if (ArmWrestleData.armStrength <= 0) {
 
         // call function to end challenge
         armWrestleEnd();
@@ -1069,41 +1120,42 @@ function armWrestleLoop() {
 function armWrestleEnd() {
 
     // stop game loop
-    clearInterval(armWrestleData.gameLoop);
+    clearInterval(ArmWrestleData.gameLoop);
 
     // remove invisible button for click detection
     document.getElementById('click-detection').style.display = 'none';
 
     // check if user has won
-    if (armWrestleData.armStrength >= 100) {
+    if (ArmWrestleData.armStrength >= 100) {
 
         // use sprite for win
         document.getElementById('arm-image').src = ArmImages.Win;
-        document.getElementById('arm-image').style.bottom = '-237px';
 
         // add win text
         document.getElementById('story-text').style.display = 'initial';
         document.getElementById('story-text').innerText = 'YOU WIN';
 
         // update story text
-        storyData.allPages.push(storyData.currentData.win);
+        StoryData.allPages.push(StoryData.currentData.win);
 
         // display continue button
         document.getElementById('arm-wrestle-continue').style.display = 'initial';
 
     // check if user has lost
-    } else if (armWrestleData.armStrength <= 0) {
+    } else if (ArmWrestleData.armStrength <= 0) {
 
         // use sprite for lose
         document.getElementById('arm-image').src = ArmImages.Lose;
-        document.getElementById('arm-image').style.bottom = '-144px';
 
         // add lose text
         document.getElementById('story-text').style.display = 'initial';
         document.getElementById('story-text').innerText = 'YOU LOSE';
 
+        // remove instruction text from story data
+        StoryData.allPages.pop();
+
         // update story text
-        storyData.allPages.push(storyData.currentData.lose);
+        StoryData.allPages.push(StoryData.currentData.lose);
 
         // display continue button
         document.getElementById('arm-wrestle-continue').style.display = 'initial';
@@ -1132,13 +1184,15 @@ function armWrestleContinue() {
     document.getElementById('page-buttons').style.display = 'flex';
 
     // continue story
-    changePage(0);
+    changePage(1);
 }
 
 
 
 // function to display the reaction test challenge
 function reactionTestChallenge() {
+
+    // both the win and lose outcomes lead to choicepath 11
     return;
 }
 
@@ -1148,14 +1202,16 @@ function reactionTestChallenge() {
 function choiceSelector() {
 
     // check if current choice path is one of the first exceptions
-    if (containsObject(storyData.choicePath, ['122', '242', '42'])) {
+    if (containsObject(StoryData.choicePath, ['1212', '122', '242', '42'])) {
 
         // redirect choice path to another section
-        storyData.choicePath = '11';
+        StoryData.choicePath = '11';
     }
 
+
+
     // check if current choice path is one of the second exceptions
-    if (containsObject(storyData.choicePath, ['123', '21', '22', '322', '323', '332', '43', '44'])) {
+    if (containsObject(StoryData.choicePath, ['123', '21', '22', '322', '323', '332', '43'])) {
 
         // call function to load new story data
         loadNewInfo();
@@ -1167,14 +1223,21 @@ function choiceSelector() {
         return;
     }
 
+    // check if current choice path is one of the third exceptions
+    if (containsObject(StoryData.choicePath, ['323', '44'])) {
+
+        // redirect choice path to another section
+        StoryData.choicePath = '121';
+    }
+
     // call function to load new story data
     loadNewInfo();
 
     // try to check if the current story data is a challenge
     try {
 
-        // check if the current story data is a challenge
-        if (storyData.currentData.sectionType != TypeOptions.Normal) {
+        // check if the current story data is an arm wrestle challenge or a reaction test challenge
+        if (containsObject(StoryData.currentData.sectionType, [TypeOptions.ArmWrestle, TypeOptions.ReactionTest])) {
 
             // run function to determine which type of challenge is occuring
             challengeSelector();
@@ -1205,10 +1268,10 @@ function moveChoiceButtons() {
     }
 
     // add text
-    document.getElementById('story-text').innerText = storyData.allPages[storyData.allPages.length - 1];
+    document.getElementById('story-text').innerText = StoryData.allPages[StoryData.allPages.length - 1];
 
     // change choice path to 11
-    storyData.choicePath = '11';
+    StoryData.choicePath = '11';
 
     // run choice selector to continue story
     choiceSelector();
@@ -1220,13 +1283,13 @@ function moveChoiceButtons() {
 function makeChoice(choiceNumber) {
 
     // update choice path
-    storyData.choicePath += choiceNumber;
+    StoryData.choicePath += choiceNumber;
 
     // print current choice path 
-    console.log('current choice path: ' + storyData.choicePath);
+    console.log('current choice path: ' + StoryData.choicePath);
 
     // incrament page number
-    storyData.pageNumber++;
+    StoryData.pageNumber++;
 
     // run function to handle exceptions
     choiceSelector();
@@ -1238,14 +1301,14 @@ function makeChoice(choiceNumber) {
 function changePage(incrament) {
 
     // change page
-    storyData.pageNumber += incrament;
+    StoryData.pageNumber += incrament;
 
     // create placeholders for buttons
     let backButton = document.getElementById('previous-page-button');
     let forwardButton = document.getElementById('next-page-button');
 
     // check if the current page is the first page
-    if (storyData.pageNumber === 0) {
+    if (StoryData.pageNumber === 0) {
 
         // temporarily disable the button to go back a page
         backButton.disabled = true;
@@ -1258,13 +1321,22 @@ function changePage(incrament) {
     }
 
     // check if the current page is the last page
-    if (storyData.pageNumber + 1 === storyData.allPages.length) {
+    if (StoryData.pageNumber + 1 === StoryData.allPages.length) {
 
         // temprorarily hide the button to go foward a page 
         forwardButton.disabled = true;
 
-        // allow choice buttons to be displayed
-        storyData.displayChoiceButtons = true;
+        // check if the current story type is a quiz
+        if (StoryData.currentData.sectionType == TypeOptions.Quiz) {
+
+            // display button to begin quiz
+            document.getElementById('begin-quiz').style.display = 'initial';
+
+        } else {
+
+            // allow choice buttons to be displayed
+            StoryData.displayChoiceButtons = true;
+        }
 
     // if the previous condition was false, check if the 'forward button' is currently hidden
     } else if (forwardButton.disabled == true) {
@@ -1283,13 +1355,13 @@ function changePage(incrament) {
 function displayText() {
 
     // update text on screen
-    document.getElementById('story-text').innerText = storyData.allPages[storyData.pageNumber];
+    document.getElementById('story-text').innerText = StoryData.allPages[StoryData.pageNumber];
 
     // make placeholder variables for choice buttons
     let choiceButtons = document.getElementsByClassName('choice-button');
 
     // check if choice buttons should be displayed, and if they aren't displayed yet
-    if (storyData.displayChoiceButtons) {
+    if (StoryData.displayChoiceButtons) {
 
         // display choice buttons only if they have text
         for (let button of choiceButtons) {
@@ -1308,16 +1380,11 @@ function displayText() {
         }
 
     // if previous condition was false, check if choice buttons should not be displayed, and if they are displayed
-    } else if (!storyData.displayChoiceButtons) {
+    } else if (!StoryData.displayChoiceButtons) {
 
         // hide choice buttons
         for (let button of choiceButtons) {
             button.style.display = 'none';
         }
     }
-
-    
-
-
-
 }

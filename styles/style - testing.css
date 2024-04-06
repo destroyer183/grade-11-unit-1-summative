@@ -184,6 +184,16 @@ body {
     height: 4rem;
 }
 
+#arm-image {
+    position: absolute;
+    bottom: -11%;
+    z-index: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0 auto;
+
+}
+
 #click-detection {
     position: absolute;
     background: none;

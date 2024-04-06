@@ -27,11 +27,11 @@ const BASE_ASPECT_RATIO = BASE_WIDTH / BASE_HEIGHT;
 
 // enumeration for the different background images for the arm wrestle challenge
 const ArmImages = {
-    Lose: 'url("assets/arm wrestle/lose.png")',
-    Losing: 'url("assets/arm wrestle/losing.png")',
-    Equal: 'url("assets/arm wrestle/equal.png")',
-    Winning: 'url("assets/arm wrestle/winning.png")',
-    Win: 'url("assets/arm wrestle/win.png")'
+    Lose: 'assets/arm wrestle/lose sprite.png',
+    Losing: 'assets/arm wrestle/losing sprite.png',
+    Equal: 'assets/arm wrestle/equal sprite.png',
+    Winning: 'assets/arm wrestle/winning sprite.png',
+    Win: 'assets/arm wrestle/win sprite.png'
 
 };
 
@@ -62,8 +62,56 @@ const ArmWrestleData = {
     // dictionary item to store the current arm state to display
     armImage: ArmImages.Equal,
 
+    // variable to store the background image
+    backgroundImage: 'url("assets/arm wrestle/background sprite.png")',
+
     // variable to act as the game loop
     gameLoop: null
+};
+
+
+
+// use an object to act as a dictionary to store goobally accesible data for the reaction test challenge
+const ReactionTestData = {
+
+    // dictionary item to act as the game loop
+    gameLoop: null,
+
+    // dictionary item to act as the game loop interval (ms)
+    loopInterval: 20,
+
+    // dictionary item to store all loaded frames, which will work essentially the same as the 'allPages' variable for normal text
+    loadedFrames: [],
+
+    // dictionary item to store arrays of all frames, with each array storing frames for different possible animations
+    allFrames: {
+
+        // dictionary item for each section of section of walking frames
+        walking: [
+            [], // array for first section of walking frames
+            [], // array for second section of walking frames
+            [] // array for third section of walking frames, this won't be used if the user wins
+        ], 
+
+        // dictionary item for each section of falling frames
+        falling: [
+            [], // array for first section of falling frames
+            [], // array for second section of falling frames
+            [] // array for third section of falling frames
+        ],
+    },
+
+    // dictionary item for number of loops that need to pass before the background frame updates
+    frameInterval: 2,
+
+    // dictionary item to act as an array of all possible keys that the user might have to press
+    allChars: 'abcdefghijklmnopqrstuvwxyz'.split(''),
+
+    // dictionary item to act as the current character the user must press in order to keep progressing
+    currentChar: '',
+
+    // dictionary item to act as the remaining time the user has to press the correct key
+    remainingTime: 0
 };
 
 
@@ -72,6 +120,7 @@ const ArmWrestleData = {
 const TypeOptions = {
     Normal: 'normal',
     Quiz: 'quiz',
+    ReactionTest: 'reaction test',
     ArmWrestle: 'arm wrestle'
 };
 
@@ -226,9 +275,36 @@ const StoryData = {
     '121': {
         text: [
             'You choose to accept the fight. But what the teacher doesn\'t know is that you were lying about accepting it on his terms.',
-            'You start attacking the teacher, catching him off guard. Since he is old, you easily win the fight.',
-            'However, the school board ends up finding out about this, and you are expelled.'
-        ]
+            'You approach the teacher with your fists raised, ready to fight. Thinking you are bluffing, he ignores you, until you throw a punch, which he narrowly dodges.',
+            'As your teacher runs down the hall to get away, you notice three of those solid metal water bottles, which you could throw at the teacher to prevent him from getting away.'
+        ],
+        choiceText: [
+            'Throw bottles',
+            'Let teacher escape',
+            '', '', ''
+        ],
+        sectionType: TypeOptions.Normal
+    },
+
+    '1211': {
+        text: [
+            'While your teacher is trying to run away, a random letter and a shrinking bar will appear on the screen. Type the letter with your keyboard before the bar disappears to throw and hit your teacher with a bottle.'
+
+
+            // this will be the reaction test with the teacher
+
+            // if the user wins, then the teacher is found dead somewhere, and the student never gets caught
+            // if the teacher gets away, parents find out, and go to angry parent path
+
+
+
+
+
+        ],
+        choiceText: ['', '', '', '', ''],
+        sectionType: TypeOptions.ReactionTest,
+        win: 'With your superior throwing skills, you sucessfully defeat your teacher, but with many loud bangs and an unconscious teacher on the ground, a few other teachers have looked outside, and caught you in the act.',
+        lose: 'Your teacher escapes your wrath, and when he gets to the office, he calls your parents.'
     },
 
     '123': {
@@ -260,13 +336,13 @@ const StoryData = {
         ],
         sectionType: TypeOptions.Quiz,
         win: 'You cheated. YOU LOSE',
-        lose: 'Teacher: \"You lied! You didn\'t do your homework! I\'m calling your parents to tell them you lied to my face about doing your homework.\"'
+        lose: 'You lied! You didn\'t do your homework! I\'m calling your parents to tell them you lied to my face about doing your homework.'
     },
 
     '14': {
         text: [
             'You take your chewed up, bent and broken computer of your bag. The teacher stares at it in confusion and awe for a moment, before speaking.',
-            'Teacher: \"Wow. Your dog really did eat your homework. I didn\'t think that was possible. Sorry for the misunderstanding.\"',
+            'Teacher: Wow. Your dog really did eat your homework. I didn\'t think that was possible. Sorry for the misunderstanding.',
             'You don\'t get in trouble for not doing your homework, since you couldn\'t do it.\nYOU WIN'
         ],
         choiceText: ['', '', '', '', ''],
@@ -275,7 +351,7 @@ const StoryData = {
 
     '2': {
         text: [
-            'Teacher: \"Well then how prepared are you for todays pop quiz?\"',
+            'Teacher: Well then how prepared are you for todays pop quiz?',
             'You realize that you don\'t know the stuff on the homework, meaning you will most likely fail the quiz. What will you do?'
         ],
         choiceText: [
@@ -295,15 +371,15 @@ const StoryData = {
     '22': {
         text: [
             'You try to cheat on the quiz by looking over at peope around you. When you finish the quiz, you think that you did pretty good, and you go to hand it to the teacher.',
-            'As soon as you hand it to the teacher, he rips it up in front of you. Teacher: \"I know you cheated! I saw you looking over at people all around you for answers. I dont need to look at this to determine your mark. It\'s a 0.\"'
+            'As soon as you hand it to the teacher, he rips it up in front of you. Teacher: I know you cheated! I saw you looking over at people all around you for answers. I dont need to look at this to determine your mark. It\'s a 0.'
         ]
     },
 
     '23': {
         text: [
-            'You: \"Get ready, because I\'m about to fight you.\" Teacher: \"Well this is my class, so you\'re fighting by my rules! Math battle!\"',
+            'You: Get ready, because I\'m about to fight you. Teacher: Well this is my class, so you\'re fighting by my rules! Math battle!',
             'Being the idiot you are, you blindly accept the fight, thinking you will be fine. The teacher hands you a pencil and paper, and hands you the quiz paper.',
-            'Teacher: \"The rules are simple. You just have to get at least 3 correct answers, and you win.\"'
+            'Teacher: The rules are simple. You just have to get at least 3 correct answers, and you win.'
         ],
         questions: [
             '1.\nSquare the number 392.',
@@ -326,8 +402,8 @@ const StoryData = {
 
     '24': {
         text: [
-            'You: \"Actually, I\'m going to give you a quiz. And if you fail, I\'m going to tell the school board that you aren\'t good enough at math to teach this class.\"',
-            'Teacher: \"No thanks. In my own classroom, you can\'t make me do anything, so I don\'t have to do your quiz. However, you have to do mine, or I will assume you didn\'t do your homework.\"'
+            'You: actually, I\'m going to give you a quiz. And if you fail, I\'m going to tell the school board that you aren\'t good enough at math to teach this class.',
+            'Teacher: No thanks. In my own classroom, you can\'t make me do anything, so I don\'t have to do your quiz. However, you have to do mine, or I will assume you didn\'t do your homework.'
         ],
         choiceText: [
             'Take the quiz',
@@ -353,12 +429,12 @@ const StoryData = {
         ],
         sectionType: TypeOptions.Quiz,
         win: 'You cheated.\nYOU LOSE',
-        lose: 'Teacher: \"You failed the quiz. I\'m sure your parents will be delighted to hear about this.\"'
+        lose: 'Teacher: You failed the quiz. I\'m sure your parents will be delighted to hear about this.'
     },
 
     '3': {
         text: [
-            'Teacher: \"Oh, well that\'s good. Then I assume that you wlll be able to ace the pop quiz today, because if you don\'t, your parents will be delighted to hear that you didn\'t do your homework and failed a quiz because of it.\"',
+            'Teacher: Oh, well that\'s good. Then I assume that you wlll be able to ace the pop quiz today, because if you don\'t, your parents will be delighted to hear that you didn\'t do your homework and failed a quiz because of it.',
             'After realizing what you\'ve gotten yourself into, you must now choose what you will do.'
         ],
         choiceText: [
@@ -385,14 +461,14 @@ const StoryData = {
             'e', 'e'
         ],
         sectionType: TypeOptions.Quiz,
-        win: 'Teacher: \"Wow. You really are smart enough to ace the quiz without doing homework. Sorry for bothering you.\"\nYOU WIN',
-        lose: 'Teacher: \"Well well well. You didn\'t pass the quiz. I wonder why. I think your parents will be interested to hear about this.\"'
+        win: 'Teacher: Wow. You really are smart enough to ace the quiz without doing homework. Sorry for bothering you.\nYOU WIN',
+        lose: 'Teacher: Well well well. You didn\'t pass the quiz. I wonder why. I think your parents will be interested to hear about this.'
     },
 
     '32': {
         text: [
-            'You: \"Get ready, because I\'m about to fight you.\"',
-            'Teacher: \"Well this is my class, so you\'re fighting by my rules! Math battle!\"'
+            'You: get ready, because I\'m about to fight you.',
+            'Teacher: Well this is my class, so you\'re fighting by my rules! Math battle!'
         ],
         choiceText: [
             'accept fight',
@@ -403,7 +479,7 @@ const StoryData = {
     },
 
     '321': {
-        text: ['Teacher: \"The rules are simple. I\'m going to give you a quiz, and you have to get at least 3 correct answers to win.\"'],
+        text: ['teacher: the rules are simple. I\'m going to give you a quiz, and you have to get at least 3 correct answers to win.'],
         questions: [
             '1.\nFind the square root of x:\n3x = 6(5! - 3) - ((3^3)6 - (5! - 6^2) - (6^2))',
             '2.\nSquare the number 392.',
@@ -419,18 +495,18 @@ const StoryData = {
             '16(x + 4)'
         ],
         sectionType: TypeOptions.Quiz,
-        win: 'Teacher: \"Well, you win. I guess you didn\'t need to do your homework.\"\nYOU WIN',
-        lose: 'Teacher: \"Looks like you lose. I guess you should\'ve done your homework. Your parents will be finding out soon.\"'
+        win: 'Teacher: Well, you win. I guess you didn\'t need to do your homework.\nYOU WIN',
+        lose: 'Teacher: Looks like you lose. I guess you should\'ve done your homework. Your parents will be finding out soon.'
     },
 
     '322': {
-        text: ['Teacher: \"Well then I\'m going to phone your parents and tell them about this.\"']
+        text: ['Well then I\'m going to phone your parents and tell them about this.']
     },
 
     '33': {
         text: [
-            'You: \"Actually, I\'m going to give you a quiz. And if you fail, I\'m going to tell the school board that you aren\'t good enough at math to teach this class.\"',
-            'Teacher: \"And if I ace the quiz, I get to fail you for this class.\"'
+            'You: actually, I\'m going to give you a quiz. And if you fail, I\'m going to tell the school board that you aren\'t good enough at math to teach this class.',
+            'Teacher: And if I ace the quiz, I get to fail you for this class.'
         ],
         choiceText: [
             'Deal',
@@ -439,31 +515,25 @@ const StoryData = {
         sectionType: TypeOptions.Normal
     },
 
-    '323': {
-        text: [
-            'You choose to beat up the teacher with your fists. Since he is in his fifties and you are a teen, you easily overpower him and beat him.',
-            'However, the school board ends up finding out, and you get expelled.'
-        ]
-    },
-
     '331': {
         text: [
-            'You: \"Deal.\"',
-            'The teacher, who underestimated the size of your brain, ended up completely failing the quiz.\nYou: \"Well I wonder what the school board will do when they hear about this.\"',
-            'The school board ended up punishing the teacher, however the punishments were not disclosed to the school. The teacher still has his job, so the board probably lowered his salary.\nYOU WIN'
+            'You: Deal.',
+            'The teacher, who underestimated the size of your brain, ended up completely failing the quiz.\nYou: Well I wonder what the school board will do when they hear about this.',
+            'The school board ended up punishing the teacher, however the punishments were not disclosed to the school. The teacher still has his job, so the board probably lowered his salary.',
+            'YOU WIN'
         ],
         choiceText: ['', '', '', '', ''],
         sectionType: TypeOptions.Normal
     },
 
     '332': {
-        text: ['Teacher: \"Well then I\'m going to tell your parents about what has happened here as you have wasted too much of my time for this to continue.\"']
+        text: ['Teacher: Well then I\'m going to tell your parents about what has happened here as you have wasted too much of my time for this to continue.']
     },
 
     '4': {
         text: [
-            'You: \"Get ready, because I\'m about to fight you.\"',
-            'Teacher: \"Well this is my class, so you\'re fighting by my rules! Math battle!\"',
+            'You: Get ready, because I\'m about to fight you.',
+            'Teacher: Well this is my class, so you\'re fighting by my rules! Math battle!',
             'Unsure about whether or not you can beat your teacher at his own game, you think about what you will do'
         ],
         choiceText: [
@@ -478,8 +548,17 @@ const StoryData = {
 
     '41': {
         text: [
-            'You: \"I accept.\"',
-            'Teacher: \"The rules are simple. I\'m going to give you a quiz, and you just have to get at least 3 correct answers to win.\"'
+            'You: I accept.',
+            'Teacher: The rules are simple. I\'m going to give you a quiz, and you just have to get at least 3 correct answers to win.'
+
+
+
+
+
+
+
+
+
         ],
         questions: [
             '1.\nFind the square root of x:\n3x = 6(5! - 3) - ((3^3)6 - (5! - 6^2) - (6^2))',
@@ -496,19 +575,12 @@ const StoryData = {
             '16(x + 4)'
         ],
         sectionType: TypeOptions.Quiz,
-        win: 'Teacher: \"Well, you win. I guess you didn\'t need to do your homework.\"\nYOU WIN',
-        lose: 'Teacher: \"Looks like you lose. I guess you should\'ve done your homework. Your parents will be finding out soon.\"'
+        win: 'Teacher: Well, you win. I guess you didn\'t need to do your homework.\nYOU WIN',
+        lose: 'Teacher: Looks like you lose. I guess you should\'ve done your homework. Your parents will be finding out soon.'
     },
 
     '43': {
         text: ['You run away. After realizing you can\'t just sleep on the road, you go back home to angry parents.']
-    },
-
-    '44': {
-        text: [
-            'You choose to beat up the teacher instead of playing his math game. As a strong teen, you easily beat up your math teacher who is an old man.',
-            'However, the school board finds out about this and you are expelled.'
-        ]
     },
 
     '5': {
@@ -596,6 +668,11 @@ function challengeSelector() {
         // case for arm wrestle challenge
         case TypeOptions.ArmWrestle:
             armWrestleSetup();
+            return;
+
+        // case for reaction test challenge
+        case TypeOptions.ReactionTest:
+            reactionTestChallenge();
             return;
     }
 }
@@ -879,9 +956,56 @@ function armWrestleSetup() {
     }
 
     // set background image
-    document.getElementById('arm-wrestle-elements').style.backgroundImage = ArmImages.Equal;
+    document.getElementById('arm-wrestle-elements').style.backgroundImage = ArmWrestleData.backgroundImage;
     document.getElementById('arm-wrestle-elements').style.backgroundSize = 'cover';
-    // document.getElementById('arm-wrestle-elements').style.backgroundPosition = 'center bottom';
+    document.getElementById('arm-wrestle-elements').style.backgroundPosition = 'center bottom';
+
+    // determine aspect ratio of background image
+    let imageAspectRatio = 1500 / 900;
+    let newImageWidth = 0;
+    let newImageHeight = 0;
+
+    // adjust image size to fit page correctly
+    // window has larger aspect ratio -> window is longer than image -> adjust width of image first
+    if (BASE_ASPECT_RATIO >= imageAspectRatio) {
+
+        // set background image size
+        newImageWidth = BASE_WIDTH;
+        newImageHeight = 900 * (BASE_WIDTH / 1500);
+
+    // window has smaller aspect ratio -> window is taller than image -> adjust height of image first
+    } else {
+
+        // set background image size
+        newImageHeight = BASE_HEIGHT;
+        newImageWidth = 1500 * (BASE_HEIGHT / 900);
+    }
+
+    // update background image size
+    // document.body.style.backgroundSize = (newImageWidth.toString() + 'px ' + newImageHeight.toString() + 'px');
+    // document.body.style.backgroundSize = 'cover';
+
+
+    // setting the position of the arm image
+    // the image offset distance is 131px
+    let imageOffset = -131;
+    // base height of background image is 900 pixels
+    let baseImageHeight = 900;
+    // divide height of background image by base height of image to get scale ratio
+    let scaleRatio = newImageHeight / baseImageHeight;
+    // get the new image height
+    newImageHeight;
+    // multiply the offset distance by the scale ratio
+    console.log(imageOffset);
+    console.log('scale ratio: ' + scaleRatio);
+    imageOffset /= scaleRatio;
+    console.log(imageOffset);
+
+    // since the background image might clip through the bottom of the screen, adjust accordingly
+    // determine how far the background image is clipping through the bottom of the screen
+    // adjust image offset by subtracting the clipping distance from it
+    // set position of arm image
+    document.getElementById('arm-image').style.bottom = imageOffset.toString() + 'px';
 
     // display arm wrestle elements
     document.getElementById('arm-wrestle-elements').style.display = 'block';
@@ -962,19 +1086,19 @@ function armWrestleLoop() {
     if (33 < ArmWrestleData.armStrength && ArmWrestleData.armStrength < 66) {
 
         // use sprite for equal
-        document.getElementById('arm-wrestle-elements').style.backgroundImage = ArmImages.Equal;
+        document.getElementById('arm-image').src = ArmImages.Equal;
 
     // check if user is losing
     } else if (0 < ArmWrestleData.armStrength && ArmWrestleData.armStrength <= 33) {
 
         // use sprite for losing
-        document.getElementById('arm-wrestle-elements').style.backgroundImage = ArmImages.Losing;
+        document.getElementById('arm-image').src = ArmImages.Losing;
 
     // check if user is winning
     } else if (66 <= ArmWrestleData.armStrength && ArmWrestleData.armStrength < 100) {
 
         // use sprite for winning
-        document.getElementById('arm-wrestle-elements').style.backgroundImage = ArmImages.Winning;
+        document.getElementById('arm-image').src = ArmImages.Winning;
 
     // check if user has won
     } else if (ArmWrestleData.armStrength >= 100) {
@@ -1005,7 +1129,7 @@ function armWrestleEnd() {
     if (ArmWrestleData.armStrength >= 100) {
 
         // use sprite for win
-        document.getElementById('arm-wrestle-elements').style.backgroundImage = ArmImages.Win;
+        document.getElementById('arm-image').src = ArmImages.Win;
 
         // add win text
         document.getElementById('story-text').style.display = 'initial';
@@ -1021,7 +1145,7 @@ function armWrestleEnd() {
     } else if (ArmWrestleData.armStrength <= 0) {
 
         // use sprite for lose
-        document.getElementById('arm-wrestle-elements').style.backgroundImage = ArmImages.Lose;
+        document.getElementById('arm-image').src = ArmImages.Lose;
 
         // add lose text
         document.getElementById('story-text').style.display = 'initial';
@@ -1065,18 +1189,29 @@ function armWrestleContinue() {
 
 
 
+// function to display the reaction test challenge
+function reactionTestChallenge() {
+
+    // both the win and lose outcomes lead to choicepath 11
+    return;
+}
+
+
+
 // this function will perform special actions when the current choice path needs to be handled differently than most.
 function choiceSelector() {
 
     // check if current choice path is one of the first exceptions
-    if (containsObject(StoryData.choicePath, ['122', '242', '42'])) {
+    if (containsObject(StoryData.choicePath, ['1212', '122', '242', '42'])) {
 
         // redirect choice path to another section
         StoryData.choicePath = '11';
     }
 
+
+
     // check if current choice path is one of the second exceptions
-    if (containsObject(StoryData.choicePath, ['121', '123', '21', '22', '322', '323', '332', '43', '44'])) {
+    if (containsObject(StoryData.choicePath, ['123', '21', '22', '322', '323', '332', '43'])) {
 
         // call function to load new story data
         loadNewInfo();
@@ -1088,6 +1223,13 @@ function choiceSelector() {
         return;
     }
 
+    // check if current choice path is one of the third exceptions
+    if (containsObject(StoryData.choicePath, ['323', '44'])) {
+
+        // redirect choice path to another section
+        StoryData.choicePath = '121';
+    }
+
     // call function to load new story data
     loadNewInfo();
 
@@ -1095,7 +1237,7 @@ function choiceSelector() {
     try {
 
         // check if the current story data is an arm wrestle challenge or a reaction test challenge
-        if (StoryData.currentData.sectionType == TypeOptions.ArmWrestle) {
+        if (containsObject(StoryData.currentData.sectionType, [TypeOptions.ArmWrestle, TypeOptions.ReactionTest])) {
 
             // run function to determine which type of challenge is occuring
             challengeSelector();
